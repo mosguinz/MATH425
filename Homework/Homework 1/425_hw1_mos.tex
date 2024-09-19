@@ -1,0 +1,903 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fancyhdr,latexsym,amssymb,amsmath,graphicx}
+\usepackage{algorithm}
+\usepackage{cancel}
+\usepackage[noend]{algpseudocode}
+\usepackage[pdftex]{hyperref}
+\pagestyle{fancy}
+\usepackage[parfill]{parskip} % Do not indent between empty lines
+\usepackage{mathtools}
+\usepackage{nicematrix}
+\usepackage{xfrac}
+\usepackage{bm}
+\usepackage{esvect}
+
+\newcommand{\veq}{\mathrel{\rotatebox{90}{$=$}}}
+\newcommand{\vneq}{\mathrel{\rotatebox{90}{$\neq$}}}
+\newcommand{\vect}[1]{\vv{\mathbf{#1}}}
+\newcommand{\code}[1]{\texttt{#1}}
+
+\lhead{MATH 425}
+\chead{Homework 1}
+\rhead{Sitthisarnwattanachai}
+
+\title{510 HW1}
+\author{mosguinz}
+\date{February 2024}
+
+\begin{document}
+
+\section*{Question 1}
+
+\subsection*{Parts A through C}
+
+The functions are defined in the \code{math425hw1.m} file, under the section \code{\%\% Question 1}.
+
+\section*{Question 2}
+
+For this question, the matrix $A$ is defined as
+
+$$
+A = \begin{pmatrix*}[r]
+    -8 & -2 & 3 & 1 \\
+    1 & -2 &  0  & 2 \\
+    -4 & -1 & 3 & 2 \\
+    4 & 1 & -1 & -1
+\end{pmatrix*}.
+$$
+
+All relevant computations are provided in the \code{math425hw1.m} file, under the section \code{\%\% Question 2}.
+
+\subsection*{Part A}
+
+The first row operation would be to make the first non-pivot position in the first column zero. Namely, $\frac{1}{8}R_1 + R_2 \to R_2$:
+
+$$
+\begin{array}{ccc}
+    \begin{pmatrix*}[r]
+        -8 & -2 & 3 & 1 \\
+        1 & -2 &  0  & 2 \\
+        -4 & -1 & 3 & 2 \\
+        4 & 1 & -1 & -1
+    \end{pmatrix*}
+    &\xrightarrow{\frac{1}{8}R_1 + R_2 \to R_2}
+    &\begin{pmatrix*}[r]
+        -8 & -2 & 3 & 1 \\
+        0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+        -4 & -1 & 3 & 2 \\
+        4 & 1 & -1 & -1
+    \end{pmatrix*}
+    \\
+    \overset{\veq}{A} & & \overset{\veq}{A_1}
+\end{array}
+$$
+
+\subsection*{Part B}
+
+To get the corresponding elementary matrix $E_1$, we apply the same row operation to the identity matrix, $I_4$.
+
+$$
+\begin{array}{ccc}
+    \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix*}
+    &\xrightarrow{\frac{1}{8}R_1 + R_2 \to R_2}
+    &\begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        \sfrac{1}{8} & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix*}
+    \\
+    \overset{\veq}{I_4} & & \overset{\veq}{E_1}
+\end{array}
+$$
+
+Then, as demonstrated in class, computing $E_1A$ yields $A_1$.
+
+$$
+E_1A = \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        \sfrac{1}{8} & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+\end{pmatrix*}
+\begin{pmatrix*}[r]
+    -8 & -2 & 3 & 1 \\
+    1 & -2 &  0  & 2 \\
+    -4 & -1 & 3 & 2 \\
+    4 & 1 & -1 & -1
+\end{pmatrix*}
+= \begin{pmatrix*}[r]
+        -8 & -2 & 3 & 1 \\
+        0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+        -4 & -1 & 3 & 2 \\
+        4 & 1 & -1 & -1
+\end{pmatrix*}
+= A_1
+$$
+
+\subsection*{Part C}
+
+Continuing down the first column, we move on to the third row. To make the entry zero, we would do: $-\frac{1}{2}R_1 + R_3 \to R_3$.
+
+$$
+\begin{array}{ccc}
+    \begin{pmatrix*}[r]
+        -8 & -2 & 3 & 1 \\
+        0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+        -4 & -1 & 3 & 2 \\
+        4 & 1 & -1 & -1
+    \end{pmatrix*}
+    &\xrightarrow{-\frac{1}{2}R_1 + R_3 \to R_3}
+    &\begin{pmatrix*}[r]
+        -8 & -2 & 3 & 1 \\
+        0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+        0 & 0 & \sfrac{3}{2} & \sfrac{3}{2} \\
+        4 & 1 & -1 & -1
+    \end{pmatrix*}
+    \\
+    \overset{\veq}{A_1} & & \overset{\veq}{A_2}
+\end{array}
+$$
+
+\subsection*{Part D}
+
+And again, we apply the same row operation to the identity matrix to obtain the corresponding elementary matrix $E_2$.
+
+$$
+\begin{array}{ccc}
+    \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix*}
+    &\xrightarrow{-\frac{1}{2}R_1 + R_3 \to R_3}
+    &\begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        -\sfrac{1}{2} & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix*}
+    \\
+    \overset{\veq}{I_4} & & \overset{\veq}{E_2}
+\end{array}
+$$
+
+Again, computing $E_2A_1$ should yield $A_2$.
+
+$$
+E_2A_1 = \begin{pmatrix*}[c]
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 \\
+    -\sfrac{1}{2} & 0 & 1 & 0 \\
+    0 & 0 & 0 & 1
+\end{pmatrix*}
+\begin{pmatrix*}[r]
+    -8 & -2 & 3 & 1 \\
+    0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+    -4 & -1 & 3 & 2 \\
+    4 & 1 & -1 & -1
+\end{pmatrix*}
+= \begin{pmatrix*}[r]
+        -8 & -2 & 3 & 1 \\
+        0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+        0 & 0 & \sfrac{3}{2} & \sfrac{3}{2} \\
+        4 & 1 & -1 & -1
+\end{pmatrix*}
+= A_2
+$$
+
+\subsection*{Part E}
+
+Continuing the process to obtain an upper triangular matrix, we then apply $\frac{1}{2}R_1 + R_4 \to R_4$ to $A_2$.
+
+$$
+\begin{array}{ccc}
+    \begin{pmatrix*}[r]
+        -8 & -2 & 3 & 1 \\
+        0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+        0 & 0 & \sfrac{3}{2} & \sfrac{3}{2} \\
+        4 & 1 & -1 & -1
+    \end{pmatrix*}
+    &\xrightarrow{\frac{1}{2}R_1 + R_4 \to R_4}
+    &\begin{pmatrix*}[r]
+        -8 & -2 & 3 & 1 \\
+        0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+        0 & 0 & \sfrac{3}{2} & \sfrac{3}{2} \\
+        0 & 0 & \sfrac{1}{2} & -\sfrac{1}{2}
+    \end{pmatrix*}
+    \\
+    \overset{\veq}{A_2} & & \overset{\veq}{A_3}
+\end{array}
+$$
+
+Then, apply the same operation to $I_4$ to obtain $E_3$.
+
+$$
+\begin{array}{ccc}
+    \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix*}
+    &\xrightarrow{\frac{1}{2}R_1 + R_4 \to R_4}
+    &\begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        \sfrac{1}{2} & 0 & 0 & 1
+    \end{pmatrix*}
+    \\
+    \overset{\veq}{I_4} & & \overset{\veq}{E_3}
+\end{array}
+$$
+
+For the purpose of maintaining our pattern, I will compute $E_3A_2$ to show that it yields $A_3$.
+
+$$
+E_3A_2 = \begin{pmatrix*}[c]
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    \sfrac{1}{2} & 0 & 0 & 1
+\end{pmatrix*}
+\begin{pmatrix*}[r]
+    -8 & -2 & 3 & 1 \\
+    0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+    0 & 0 & \sfrac{3}{2} & \sfrac{3}{2} \\
+    4 & 1 & -1 & -1
+\end{pmatrix*}
+= \begin{pmatrix*}[r]
+    -8 & -2 & 3 & 1 \\
+    0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+    0 & 0 & \sfrac{3}{2} & \sfrac{3}{2} \\
+    0 & 0 & \sfrac{1}{2} & -\sfrac{1}{2}
+\end{pmatrix*}
+= A_3
+$$
+
+``Luckily," the last operation also took care of the second column for us. So we now move to the third column by applying $-\frac{1}{3}R_3 + R_4 \to R_4$ to $A_3$.
+
+$$
+\begin{array}{ccc}
+    \begin{pmatrix*}[r]
+        -8 & -2 & 3 & 1 \\
+        0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+        0 & 0 & \sfrac{3}{2} & \sfrac{3}{2} \\
+        0 & 0 & \sfrac{1}{2} & -\sfrac{1}{2}
+    \end{pmatrix*}
+    &\xrightarrow{-\frac{1}{3}R_3 + R_4 \to R_4}
+    &\begin{pmatrix*}[r]
+        -8 & -2 & 3 & 1 \\
+        0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+        0 & 0 & \sfrac{3}{2} & \sfrac{3}{2} \\
+        0 & 0 & 0 & -1
+    \end{pmatrix*}
+    \\
+    \overset{\veq}{A_3} & & \overset{\veq}{A_4}
+\end{array}
+$$
+
+Again, apply the same operation to $I_4$ to obtain $E_4$.
+
+$$
+\begin{array}{ccc}
+    \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix*}
+    &\xrightarrow{-\frac{1}{3}R_3 + R_4 \to R_4}
+    &\begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & -\sfrac{1}{3} & 1
+    \end{pmatrix*}
+    \\
+    \overset{\veq}{I_4} & & \overset{\veq}{E_4}
+\end{array}
+$$
+
+Once more, computing $E_4A_3$ should yield $A_4$, which is the upper triangular matrix we want to achieve. Hence, we denote $A_4 = U$.
+
+$$
+E_4A_3 = \begin{pmatrix*}[c]
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & -\sfrac{1}{3} & 1
+\end{pmatrix*}
+\begin{pmatrix*}[r]
+    -8 & -2 & 3 & 1 \\
+    0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+    0 & 0 & \sfrac{3}{2} & \sfrac{3}{2} \\
+    0 & 0 & \sfrac{1}{2} & -\sfrac{1}{2}
+\end{pmatrix*}
+= \begin{pmatrix*}[r]
+    -8 & -2 & 3 & 1 \\
+    0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+    0 & 0 & \sfrac{3}{2} & \sfrac{3}{2} \\
+    0 & 0 & 0 & -1
+\end{pmatrix*}
+= A_4 = U
+$$
+
+From parts (c) through (e), we found that $E_iA_{i-1} = A_i$ at the end of each row operation $i$ (and for the sake of this argument, let's define $A_0=A$). In other words, applying the elementary matrix $E_i$ obtained from the corresponding row operation $i$ yields the same result as applying the row operation to the matrix $A_{i-1}$.
+
+More clearly:
+$$
+\begin{array}{rcl}
+    E_1A = A_1 \\
+    E_2A_1 = A_2 &\implies& E_2E_1A = A_2 \\
+    E_3A_2 = A_3 &\implies& E_3E_2E_1A = A_3 \\
+    E_4A_3 = A_4 &\implies& E_4E_3E_2E_1A = A_4 = U
+\end{array}
+$$
+
+\subsection*{Part F}
+
+From parts (b) through (f), we just computed the elementary matrices $E_1,\ldots,E_4$. Using MATLAB to compute their inverse, we see that it simply flips the sign of the non-zero entry below the diagonal.
+
+$$
+\begin{array}{lcl}
+    E_1 = \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        \sfrac{1}{8} & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix*}
+    &\implies&
+    E_1^{-1} = \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        -\sfrac{1}{8} & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix*} \\
+    E_2 = \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        -\sfrac{1}{2} & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix*}
+    &\implies&
+    E_2^{-1} = \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        \sfrac{1}{2} & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix*} \\
+    E_3 = \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        \sfrac{1}{2} & 0 & 0 & 1
+    \end{pmatrix*}
+    &\implies&
+    E_3^{-1} = \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        -\sfrac{1}{2} & 0 & 0 & 1
+    \end{pmatrix*} \\
+    E_4 = \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & -\sfrac{1}{3} & 1
+    \end{pmatrix*}
+    &\implies&
+    E_4^{-1} = \begin{pmatrix*}[c]
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & \sfrac{1}{3} & 1
+    \end{pmatrix*}
+\end{array}
+$$
+
+\subsection*{Part G}
+
+From part (g), we have that:
+$$
+E_4E_3E_2E_1 A = U
+$$
+
+Applying $L=E_1^{-1}E_2^{-1}E_3^{-1}E_4^{-1}$:
+$$
+E_1^{-1}E_2^{-1}E_3^{-1}E_4^{-1} E_4E_3E_2E_1 A = E_1^{-1}E_2^{-1}E_3^{-1}E_4^{-1}U
+$$
+
+On the left-hand side, $E_i^{-1}E_i = I$ for each $i=4,3,2,1$:
+\begin{align*}
+    E_1^{-1}E_2^{-1}E_3^{-1}\cancel{E_4^{-1} E_4}E_3E_2E_1 A 
+    &= E_1^{-1}E_2^{-1}E_3^{-1}E_4^{-1}U \\
+    E_1^{-1}E_2^{-1}\cancel{E_3^{-1} E_3}E_2E_1 A 
+    &= E_1^{-1}E_2^{-1}E_3^{-1}E_4^{-1}U \\
+    E_1^{-1}\cancel{E_2^{-1} E_2}E_1 A 
+    &= E_1^{-1}E_2^{-1}E_3^{-1}E_4^{-1}U \\
+    \cancel{E_1^{-1} E_1} A
+    &= E_1^{-1}E_2^{-1}E_3^{-1}E_4^{-1}U \\
+    A &= LU
+\end{align*}
+
+Since $L$ is composed of the inverses of the elementary matrices $E_1,\ldots,E_4$ (which are lower triangular), the resulting product $L=E_1^{-1}E_2^{-1}E_3^{-1}E_4^{-1}$ is also a lower triangular matrix.
+
+We note that the elementary matrices (and subsequently, its inverse) are in lower triangular form because we are performing Gaussian elimination in a way such that the column $i$ is always less than row $j$. As a consequence, the non-zero entry $(j,i)$ is \textit{always} under the main diagonal.
+
+Using MATLAB, we do indeed find that $U$ is the upper triangular matrix arrived in part (g). 
+
+As such we conclude that, the LU factorization of the matrix is
+$$
+A = LU = \begin{pmatrix*}[r]
+    -8 & -2 & 3 & 1 \\
+    1 & -2 &  0  & 2 \\
+    -4 & -1 & 3 & 2 \\
+    4 & 1 & -1 & -1
+\end{pmatrix*}
+$$
+where $L = \begin{pmatrix*}[c]
+    1 & 0 & 0 & 0 \\
+    -\sfrac{1}{8} & 1 & 0 & 0 \\
+    \sfrac{1}{2} & 0 & 1 & 0 \\
+    -\sfrac{1}{2} & 0 & \sfrac{1}{3} & 1
+\end{pmatrix*}$ and
+$U = \begin{pmatrix*}[r]
+    -8 & -2 & 3 & 1 \\
+    0 & -\sfrac{9}{4} & \sfrac{3}{8}  & \sfrac{17}{8} \\
+    0 & 0 & \sfrac{3}{2} & \sfrac{3}{2} \\
+    0 & 0 & 0 & -1
+\end{pmatrix*}$.
+
+\subsection*{Part H}
+
+With the LU factorization of $A$ in the previous part, we can solve the system $A\vect{x}=\vect{b}$ in two steps using our \code{myLinearSolution} function.
+
+First, solve $L\vect{y}=\vect{b}$:
+$$
+L\vect{y}=\vect{b} \implies \vect{y} = \code{myLinearSolution($L$, $\vect{b}$)} = \begin{pmatrix*}
+    -2 \\ \sfrac{23}{4} \\ -4 \\ \sfrac{4}{3}
+\end{pmatrix*}
+$$
+
+Then, solving $U\vect{x}=\vect{y}$ gives us the solution:
+$$
+U\vect{x}=\vect{y} \implies \vect{x} = \code{myLinearSolution($U$, $\vect{y}$)} = \begin{pmatrix*}
+    \sfrac{16}{27} \\ -\sfrac{109}{27} \\ -\sfrac{4}{3} \\ -\sfrac{4}{3}
+\end{pmatrix*}
+$$
+
+And sure enough, we can verify our solution by computing $A\vect{x}=\vect{b}$ with our $\vect{x}$.
+$$
+A\vect{x}=\begin{pmatrix*}[r]
+    -8 & -2 & 3 & 1 \\
+    1 & -2 &  0  & 2 \\
+    -4 & -1 & 3 & 2 \\
+    4 & 1 & -1 & -1
+\end{pmatrix*}
+\begin{pmatrix*}
+    \sfrac{16}{27} \\ -\sfrac{109}{27} \\ -\sfrac{4}{3} \\ -\sfrac{4}{3}
+\end{pmatrix*}
+= \begin{pmatrix*}
+    -2 \\ 6 \\ -5 \\ 1
+\end{pmatrix*}
+= \vect{b}
+$$
+
+\section*{Question 3}
+
+In this question, we are referring to the system $A\vect{x}=\vect{b}$, where $A$ is a regular $n\times n$ matrix such that
+$$
+A = \begin{pNiceArray}{ccccc}
+    a_{1,1} & a_{1,2} & \Cdots & & a_{1,n} \\
+    a_{2,1} & \Ddots & & & \Vdots \\
+    \Vdots \\
+    \\
+    a_{n,1} & a_{n,2} & \Cdots & & a_{n,n}
+\end{pNiceArray}
+$$
+
+and $a_{i,j}$ are the entries of the corresponding row $i$ and column $j$.
+
+\subsection*{Part A}
+
+Again, under the assumption that $a_{i,i}\neq0$ for all $i=1,\ldots,n$, the first step for us is to convert the coefficient matrix $A$ into an upper triangular matrix $U$.
+
+First, we need to compute the ratio for the needed to eliminate the entries below the diagonal. In class, we denoted this ratio $\ell_{i,j} = -\frac{a_{j,i}}{a_{i,i}}$. We need to compute this for each entries \textit{below} the diagonal, that is, $n-i$ rows. For a system of $n\times n$ matrix, we perform this calculation at least $n-1$ times. As such, the number of division operations we perform to calculate the ratio is:
+
+$$
+\sum_{i=1}^{n-1} (n-i) = \frac{n(n-1)}{2}
+$$
+
+Then, we perform the row operation, by scaling the row by the ratio and updating it i.e., performing the operation $\ell_{i,j}R_i + R_j \to R_j$. By the magic of MATLAB, we can do this in one step. However, to count the number of operations, we need to break it down:
+
+\begin{itemize}
+    \item First, the ratio is multiplied to each of the entries in the row $R_i$. At column $i$, we will multiply the ratio to entries to the right of the pivot i.e., $n-i$ times.
+    \begin{itemize}
+        \item And also add it to the corresponding entry in row $R_j$, but we'll ignore it since we're not counting addition/subtraction.
+    \end{itemize}
+    \item Then, we need to repeat the above for all of the rows below. Which, again is $n-i$ rows.
+\end{itemize}
+
+As such, the number of multiplication operations we perform updating the entries is:
+
+$$
+\sum_{i=1}^{n-1} (n-i)(n-i) = \frac{n(2n-1)(n-1)}{6}
+$$
+
+At this stage, our $n\times n$ matrix $A$ should be transformed into an upper triangular matrix $U$ in the form
+
+$$
+U = \begin{pNiceArray}{ccccc}
+    u_{1,1} & u_{1,2} & \Cdots & & u_{1,n} \\
+    0 & u_{2,2} & & & \Vdots \\
+    \Vdots & & & \\
+    & & & \Ddots\\
+    0 & 0 & \Cdots & & u_{n,n}
+\end{pNiceArray}
+$$
+
+where $u_{i,j}$ are the entries of the corresponding row $i$ and column $j$.
+
+Now, we can begin to perform backward substitution to solve for $\vect{b}$. Let's denote the transformed column vector as $\vect{b'}$ and its entries $b'_i$ for row $i$. Our augmented matrix should look like this
+
+$$
+\begin{bNiceArray}{c|c}
+    U & \vect{b'}
+\end{bNiceArray}
+= \begin{pNiceArray}{ccccc|c}
+    u_{1,1} & u_{1,2} & \Cdots &            & u_{1,n}   & b'_1    \\
+    0       & u_{2,2} & \Cdots &            & u_{2,n}x_n& b'_2  \\
+    \Vdots  &         & \Ddots &            & \Vdots    & \Vdots  \\
+            &         &        & u_{n-1,n-1}& u_{n-1,n} & b'_{n-1}    \\
+    0       & 0       & \Cdots &            & u_{n,n}   & b'_n
+\end{pNiceArray}
+$$
+
+which is equivalent to the system of equation
+
+$$
+\left\{
+\begin{NiceArray}{ccccccccl}
+    u_{1,1}x_1 & + & u_{1,2}x_2 & + & \Cdots & + & u_{1,n} x_n & =  & b'_1 \\
+    0          & + & u_{2,2}x_2 & + & \Cdots & + & u_{2,n} x_n & =  & b'_2 \\
+    \Vdots     &   &      & \Ddots  &        &   & \Vdots      &    & \Vdots \\
+               &   &&& u_{n-1,n-1}x_{n-1}& + &u_{n-1,n}x_n     & =  & b'_{n-1} \\
+    0          & + & 0          & + & \Cdots & + & u_{n,n}x_n  & =  & b'_n
+\end{NiceArray}
+\right.
+$$
+
+where $\vect{x} = \begin{pmatrix}
+    x_1 & x_2 & \cdots & x_n
+\end{pmatrix}^\top$.
+
+First, we begin solving from the bottom, starting at row $n$:
+
+\begin{align*}
+    x_n &= \frac{b'_n}{u_{n,n}} \\
+    x_{n-1} &= \frac{b'_{n-1} - u_{n-1,n}x_n}{u_{n-1,n-1}} \\
+    x_{n-2} &= \frac{b'_{n-2} - u_{n-2,n}x_n - u_{n-2,n-1}x_{n-1}}{u_{n-2,n-2}} \\
+    \vdots \\
+    x_i &= \frac{b'_i - u_{i,n}x_n - u_{i,n-1}x_{n-1} - \cdots - u_{i,i+1}x_{i+1}}{u_{i,i}} \\
+    \vdots \\
+    x_1 &= \frac{b'_1 - u_{1,n}x_n - \cdots - u_{1,2}x_2}{u_{1,1}}
+\end{align*}
+
+As we can see, at row $n$, we have one division operation. Then:
+
+\begin{itemize}
+    \item At row $n-1$, there is one multiplication and one division operation; a total of 2.
+    \item At row $n-2$, there are two multiplication and one division operation; a total of 3.
+    \item At row $i$, there will be $i-1$ multiplication and one division operation; a total of $i$ operations.
+\end{itemize}
+
+As such, the total number of multiplication and division operations for performing back substitution is:
+
+$$
+1 + 2 + \cdots + (n-2) + (n-1) = \sum_{i=1}^{n-1} i = \frac{n(n-1)}{2}
+$$
+
+At the end of this, we should have the solution to our system, $A\vect{x}=\vect{b}$. And so, the total number of multiplication and division operations needed to find the solution $\vect{x}$ by Gaussian elimination and backward substitution is:
+
+\begin{align*}
+    \sum_{i=1}^{n-1} (n-i) + \sum_{i=1}^{n-1} (n-i)(n-i) + \sum_{i=1}^{n-1} i
+    &= \frac{n(n-1)}{2} + \frac{n(2n-1)(n-1)}{6} + \frac{n(n-1)}{2} \\
+    &= \frac{1}{3}n^3 + \frac{1}{2}n^2 - \frac{5}{6}n
+\end{align*}
+
+Thus, the degree is 3 and the leading term is $\displaystyle\frac{1}{3}$.
+
+\subsection*{Part B}
+
+If $A$ is invertible, then there exists a matrix $P$ such that $PA=AP=I_n$. $P$ is said to be the inverse of $A$, denoted $A^{-1}$. To find $A^{-1}$, we can set up a system $AP=I_n$. Then, we have that
+
+$$
+AP = I_n 
+\iff
+A\begin{pNiceArray}{ccc}
+    | &  & | \\
+    \vect{p}_1 & \Cdots & \vect{p}_n \\
+    | &  & |
+\end{pNiceArray}
+= \begin{pNiceArray}{ccc}
+    | &  & | \\
+    \vect{e}_1 & \Cdots & \vect{e}_n \\
+    | &  & |
+\end{pNiceArray}
+% = \begin{pNiceArray}{ccccc}
+%     1       & 0         & \Cdots & 0        \\
+%     0       & 1         & \Cdots & 0        \\
+%     \Vdots  & \Vdots    & \Ddots & \Vdots   \\
+%     0       & 0         & \Cdots & 1
+% \end{pNiceArray}
+$$
+
+where $\vect{e}_i$ are the zero column vectors with a single 1 entry at row $i$. By matrix multiplication, we can them decompose $AP = I_n$ into $n$ separate systems.
+
+$$
+\begin{array}{c}
+    A\vect{p}_1 = \vect{e}_1 \\
+    A\vect{p}_2 = \vect{e}_2 \\
+    \vdots \\
+    A\vect{p}_n = \vect{e}_n
+\end{array}
+$$
+
+And so, to find the inverse, we would need to perform Gaussian elimination and backward substitution on the augmented matrix $\begin{bNiceArray}{c|c}
+    A&\vect{e}_i    
+\end{bNiceArray}$ for each $i=1,\ldots,n$.
+
+In part (a), we already found the number of multiplication and division operations needed to find the solution $\vect{x}$. Now, we're performing the same operations, but for $\vect{p}_1\ldots\vect{p}_n$. As such, the total number of operations needed to find $A^{-1}$ is:
+
+\begin{align*}
+    \sum_{i=1}^n \left(\frac{1}{3}n^3 + \frac{1}{2}n^2 - \frac{5}{6}n \right)
+    &= n \left(\frac{1}{3}n^3 + \frac{1}{2}n^2 - \frac{5}{6}n \right) \\
+    &= \frac{1}{3}n^4 + \frac{1}{2}n^3 - \frac{5}{6}n^2 \\
+\end{align*}
+
+We still need to solve the original system by computing $\vect{x}=A^{-1}\vect{b}$. Since $A^{-1}$ is an $n\times n$ matrix and $\vect{b}$ is an $n\times 1$ column vector, we need to perform $n^2$ multiplication operations.
+
+As such, the total number of multiplication and division operations needed to compute $A^{-1}$ and applying it to $\vect{b}$ to find $\vect{x}$ is:
+
+\begin{align*}
+    \sum_{i=1}^n \left(\frac{1}{3}n^3 + \frac{1}{2}n^2 - \frac{5}{6}n \right)
+    + \sum_{i=1}^n n
+    &= \frac{1}{3}n^4 + \frac{1}{2}n^3 - \frac{5}{6}n^2 + n^2 \\
+    &= \frac{1}{3}n^4 + \frac{1}{2}n^3 + \frac{1}{6}n^2
+\end{align*}
+
+Thus, the degree is 4 and the leading coefficient is $\displaystyle\frac{1}{3}$.
+
+\subsection*{Part C}
+
+In part (a), we found that solving the system through Gaussian elimination and backward substitution involves $\displaystyle\frac{n^3}{3}$ operations. Whereas in part (b), simply computing the inverse $A^{-1}$ itself requires $\displaystyle\frac{n^4}{3}$ operations, which grows significantly faster.
+
+Thus, for large $n$, solving the system using Gaussian elimination and backward substitution will more more efficient than calculating $A^{-1}$ and multiplying by $\vect{b}$.
+
+\section*{Question 4}
+
+\subsection*{Part A}
+
+First, we notice that the Hilbert matrix is symmetric. The entries in the main diagonal are the unit fractions in descending order. Interestingly, the denominators of the pivot entries are ascending odd numbers, starting from one in the first column. For example, below are $3\times3$ and $5\times5$ Hilbert matrices, denoted $H_3$ and $H_5$, respectively.
+
+$$
+H_3 = \begin{pmatrix*}
+    1 & \sfrac{1}{2} & \sfrac{1}{3} \\
+    \sfrac{1}{2} & \sfrac{1}{3} & \sfrac{1}{4} \\
+    \sfrac{1}{3} & \sfrac{1}{4} & \sfrac{1}{5}
+\end{pmatrix*}
+,\qquad
+H_5 = \begin{pmatrix*}
+    1 & \sfrac{1}{2} & \sfrac{1}{3} & \sfrac{1}{4} & \sfrac{1}{5} \\
+    \sfrac{1}{2} & \sfrac{1}{3} & \sfrac{1}{4} & \sfrac{1}{5} & \sfrac{1}{6} \\
+    \sfrac{1}{3} & \sfrac{1}{4} & \sfrac{1}{5} & \sfrac{1}{6} & \sfrac{1}{7} \\
+    \sfrac{1}{4} & \sfrac{1}{5} & \sfrac{1}{6} & \sfrac{1}{7} & \sfrac{1}{8} \\
+    \sfrac{1}{5} & \sfrac{1}{6} & \sfrac{1}{7} & \sfrac{1}{8} & \sfrac{1}{9}
+\end{pmatrix*}
+$$
+
+Using MATLAB, we find their respective inverse to be the following:
+
+$$
+H_3^{-1} = \begin{pmatrix*}
+    9 & -36 & 30 \\
+    -36 & 192 & -180 \\
+    30 & -180 & 180
+\end{pmatrix*}
+,\quad
+H_5^{-1} = \begin{pmatrix*}[r]
+    25 & -300 & 1050 & -1400 & 630 \\
+    -300 & 4800 & -18900 & 26880 & -12600 \\
+    1050 & -18900 & 79380 & -117600 & 56700 \\
+    -1400 & 26880 & -117600 & 179200 & -88200 \\
+    630 & -12600 & 56700 & -88200 & 44100
+\end{pmatrix*}
+$$
+
+Looking at the inverses, we notice that:
+\begin{itemize}
+    \item all of the entries are integers;
+    \item the entries on the main diagonal are all positive;
+    \item the first entry $(1,1)$ for an $n\times n$ Hilbert matrix $H_n$ is always $n^2$;
+    \item the sign for each entry are alternating, with the first being positive; and
+    \item by the property of symmetric matrices, their inverses are also symmetric.
+\end{itemize}
+
+I can't help but to also notice that there \textit{might} be a pattern for the entries on the major diagonal, but it doesn't appear to be immediately obvious.
+
+In \code{math425hw1.m}, under the \code{\%\% Question 4} section, I've generated additional Hilbert matrices up to \( n = 15 \), which are omitted here for the sake of brevity.
+
+\subsection*{Part B}
+
+To illustrate the issue of numerical inaccuracy, we first generate a random $15\times1$ column vector $\vect{x}$ using \code{rand}. This is the ``true solution" that we should get.
+
+$$
+\vect{x} = \code{rand(15, 1)} = \begin{pmatrix*}
+    \sfrac{1079}{3083} \\  
+    \sfrac{358}{1821} \\  
+    \vdots \\
+    % \sfrac{695}{2768} \\  
+    % \sfrac{1436}{2331} \\  
+    % \sfrac{567}{1198} \\  
+    % \sfrac{339}{964} \\   
+    % \sfrac{1935}{2329} \\  
+    % \sfrac{1263}{2158} \\  
+    % \sfrac{199}{362} \\   
+    % \sfrac{1595}{1739} \\  
+    % \sfrac{327}{1144} \\  
+    % \sfrac{2261}{2986} \\  
+    % \sfrac{2476}{3285} \\  
+    % \sfrac{751}{1974} \\  
+    \sfrac{967}{1703}
+\end{pmatrix*}
+$$
+
+Then, calculate a $\vect{b}$ by applying the $15\times15$ Hilbert matrix, $H_{15}$.
+
+$$
+H_{15}\vect{x} = \vect{b} = \code{hlib(15) * x} = \begin{pmatrix*}
+    \sfrac{1604}{1149} \\  
+    \sfrac{551}{520} \\   
+    \vdots \\
+    % \sfrac{1161}{1303} \\  
+    % \sfrac{2181}{2798} \\  
+    % \sfrac{403}{578} \\   
+    % \sfrac{50}{79} \\    
+    % \sfrac{313}{539} \\   
+    % \sfrac{729}{1357} \\  
+    % \sfrac{922}{1843} \\  
+    % \sfrac{1594}{3403} \\  
+    % \sfrac{1932}{4385} \\  
+    % \sfrac{57}{137} \\   
+    % \sfrac{2857}{7247} \\  
+    % \sfrac{571}{1524} \\  
+    \sfrac{226}{633}   
+\end{pmatrix*}
+$$
+
+Theoretically, applying $H_{15}^{-1}$ to both sides of $H_{15}\vect{x} = \vect{b}$ should give us the original $\vect{x}$. However, using MATLAB we find that the results vary by a lot. The first entry appears to be correct, however, the difference between the following rows start the grow.
+
+$$
+\vect{x}_{\text{actual}} = H_{15}^{-1}\vect{b} = \code{inv(hilb(15)) * b} = \begin{pmatrix*}
+    \sfrac{1079}{3083} \\  
+    \sfrac{1529}{7778} \\  
+    \vdots \\
+    % \sfrac{971}{3863} \\  
+    % \sfrac{1138}{1877} \\  
+    % \sfrac{419}{817} \\   
+    % \sfrac{2797}{10380} \\ 
+    % \sfrac{869}{544} \\   
+    % \sfrac{2405}{1111} \\  
+    % \sfrac{-1383}{217} \\   
+    % \sfrac{1855}{162} \\   
+    % \sfrac{-8031}{422} \\   
+    % \sfrac{2147}{141} \\   
+    % \sfrac{-14464}{4359} \\  
+    % \sfrac{2397}{662} \\   
+    \sfrac{-97}{1069}  
+\end{pmatrix*}
+$$
+
+To illustrate this, the following shows the difference between the expected values of \(\vect{x}\) and the computed values \(\vect{x}_{\text{actual}}\) for this specific randomly-generated vector.
+
+$$
+\vect{x}_{\Delta} = \vect{x}_{\text{actual}}-\vect{x}
+= \begin{pmatrix*}
+    \sfrac{1079}{3083} \\  
+    \sfrac{1529}{7778} \\  
+    \sfrac{971}{3863} \\  
+    \sfrac{1138}{1877} \\  
+    \sfrac{419}{817} \\   
+    \sfrac{2797}{10380} \\ 
+    \sfrac{869}{544} \\   
+    \sfrac{2405}{1111} \\  
+    \sfrac{-1383}{217} \\   
+    \sfrac{1855}{162} \\   
+    \sfrac{-8031}{422} \\   
+    \sfrac{2147}{141} \\   
+    \sfrac{-14464}{4359} \\  
+    \sfrac{2397}{662} \\   
+    \sfrac{-97}{1069}  
+\end{pmatrix*}
+- \begin{pmatrix*}
+    \sfrac{1079}{3083} \\  
+    \sfrac{358}{1821} \\  
+    \sfrac{695}{2768} \\  
+    \sfrac{1436}{2331} \\  
+    \sfrac{567}{1198} \\  
+    \sfrac{339}{964} \\   
+    \sfrac{1935}{2329} \\  
+    \sfrac{1263}{2158} \\  
+    \sfrac{199}{362} \\   
+    \sfrac{1595}{1739} \\  
+    \sfrac{327}{1144} \\  
+    \sfrac{2261}{2986} \\  
+    \sfrac{2476}{3285} \\  
+    \sfrac{751}{1974} \\  
+    \sfrac{967}{1703}
+\end{pmatrix*}
+\approx
+\begin{pmatrix*}[r]
+    0\phantom{.00000\ldots} \\
+    -0.00001\ldots \\
+     0.00027\ldots \\
+    -0.00975\ldots \\
+     0.03956\ldots \\
+    -0.08219\ldots \\
+     0.76659\ldots \\
+     1.57945\ldots \\
+    -6.92299\ldots \\
+     10.5334\ldots \\
+    -19.3166\ldots \\
+     14.4697\ldots \\
+    -4.07192\ldots \\
+     3.24040\ldots \\
+    -0.65856\ldots
+\end{pmatrix*}
+$$
+
+Interestingly, repeated runs of this experiment consistently show that the first entry is always accurate, while the largest absolute differences between the actual and expected values typically occur around rows 10 to 15. The reason for this pattern is beyond my pay grade.
+
+\section*{Question 5}
+
+First, we can express the matrices $A=LU$ as:
+$$
+A = \begin{pNiceArray}{ccccc}
+    a_{1,1} & a_{1,2} & \Cdots & & a_{1,n} \\
+    a_{2,1} & \Ddots & & & \Vdots \\
+    \Vdots \\
+    \\
+    a_{n,1} & a_{n,2} & \Cdots & & a_{n,n}
+\end{pNiceArray}
+= \begin{pNiceArray}{ccccc}
+    1 & 0 & \Cdots & & 0 \\
+    l_{2,1} & 1 & & &  0 \\
+    \Vdots & & & & \Vdots \\
+    & & & \Ddots \\
+    l_{n,1} & l_{n,2} & \Cdots & & 1
+\end{pNiceArray}
+\begin{pNiceArray}{ccccc}
+    u_{1,1} & u_{1,2} & \Cdots & & u_{1,n} \\
+    0 & u_{2,2} & & & \Vdots \\
+    \Vdots & & & \\
+    & & & \Ddots\\
+    0 & 0 & \Cdots & & u_{n,n}
+\end{pNiceArray}
+$$
+
+I have no idea how you would achieve it without Gaussian elimination. But I believe through careful calculations you can compute the entries of $L$ and $U$ directly. Though, I can't imagine that it would be more efficient than the Gaussian elimination and backward substitution method since you would likely need to perform as many multiplication operations to compute the entries for $L$ and $U$.
+
+Once we have compute the LU factorization for a matrix $A$, the likely advantage is that we can express a system $A\vect{x}=\vect{b}$ as $LU\vect{x}=\vect{b}$.
+
+Then, if we let $\vect{y}=U\vect{x}$ we can express the system as $L\vect{y}=\vect{b}$. Since $L$ and $U$ are in lower and upper triangular form, we would only need to perform forward and backward substitution to solve for $\vect{x}$ for any given $\vect{b}$. This would be more efficient than performing Gaussian elimination for the entire system again. As we found in 3(a), backward (and therefore forward) substitution only grows as $n^2$, where as performing Gaussian elimination grows as $n^3$. 
+
+\end{document}

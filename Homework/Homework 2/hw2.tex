@@ -1,0 +1,60 @@
+\documentclass[11pt]{amsart}
+
+\usepackage{amsthm, amssymb,amsmath}
+\usepackage{graphicx}
+
+\theoremstyle{definition}  % Heading is bold, text is roman
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+
+\newcommand{\ojo}[1]{{\sffamily\bfseries\boldmath[#1]}}
+
+\oddsidemargin 0pt
+\evensidemargin 0pt
+\marginparwidth 0pt
+\marginparsep 10pt
+\topmargin -10pt
+\headsep 10pt
+\textheight 8.4in
+\textwidth 7in
+
+%\input{../header}
+
+
+\begin{document}
+
+%\homework{}{Homework II}
+
+
+\noindent For this homework, include all code and computations in a {\tt MATLAB} file named {\tt math425hw2.m}.
+You will need to submit this file along with a document containing your answers which do not
+involve {\tt MATLAB}.\\
+
+
+\noindent
+{\bf 1.a)} Create a function called {\tt myPartialPivot} which takes as input an $n \times n$ matrix $A$. The output is an $n \times n$
+matrix $U$ which is upper triangular.  This time we are not assuming that $A$ is regular, i.e., along the way some pivots could be zero. Even if a pivot
+is not zero, use partial pivoting to identify a better pivot to continue with Gaussian elimination. \\
+{\bf b)} Create a function called {\tt myRank} which takes as input an $n \times n$ matrix $A$ and computes the rank of $A$ using {\tt myPartialPivot}.\\
+{\bf c)}  To test your function {\tt myRank}, generate a random $5 \times 3$ matrix $P$ and a random $3 \times 5$ matrix $Q$. Let $A = PQ$. Does your function
+compute the rank of $A$ to be $3$?\\
+
+\noindent {\bf 2.} Suppose an $n \times n$ matrix $A$ is {\it strictly column diagonally dominant}. This means that for each $j=1,\ldots, n$
+$$ |a_{jj} | \, > \, \sum_{i \neq j}^n |a_{ij}|. $$ 
+{\bf a)} Give an example of a $ 4 \times 4$ strictly column diagonally dominant matrix which is not a diagonal matrix. \\
+{\bf b)} Show that if Gaussian elimination with partial pivoting is used on a strictly column diagonally dominant matrix no row interchanges occur. \\
+{\bf c)} Modify {\tt myPartialPivot}  slightly so that it counts and prints the number of row interchanges during the application of the function.  Then 
+test this function on your example from part {\bf a)}. The number of row interchanges should be zero. \\
+
+\noindent {\bf 3.} Let $A$ be an $n \times n$ symmetric matrix. Describe a strategy of {\it symmetric pivoting} so that after the Gaussian elimination the matrix
+$A$ is reduced to a diagonal matrix $D$. Make sure to argue that after each symmetric pivoting the resulting matrix is still symmetric. [Hint: this will require both row and
+column operations]\\
+
+
+ 
+
+
+\end{document}
+
+
