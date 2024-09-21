@@ -1,0 +1,121 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fancyhdr,latexsym,amssymb,amsmath,graphicx}
+\usepackage{algorithm}
+\usepackage{cancel}
+\usepackage[noend]{algpseudocode}
+\usepackage[pdftex]{hyperref}
+\pagestyle{fancy}
+\usepackage[parfill]{parskip} % Do not indent between empty lines
+\usepackage{mathtools}
+\usepackage{nicematrix}
+\usepackage{xfrac}
+\usepackage{bm}
+\usepackage{esvect}
+
+\newcommand{\veq}{\mathrel{\rotatebox{90}{$=$}}}
+\newcommand{\vneq}{\mathrel{\rotatebox{90}{$\neq$}}}
+\newcommand{\vect}[1]{\vv{\mathbf{#1}}}
+\newcommand{\code}[1]{\texttt{#1}}
+
+\lhead{MATH 425}
+\chead{Homework 1}
+\rhead{Sitthisarnwattanachai}
+
+\title{510 HW1}
+\author{mosguinz}
+\date{February 2024}
+
+\begin{document}
+
+\section*{Question 1}
+
+The functions are defined in the \code{math425hw2.m} file, under the section \code{\%\% Question 1}.
+
+\subsection*{Part A}
+
+See \code{math425hw2.m}.
+
+\subsection*{Part B}
+
+Using \code{myPartialPivot}, \code{myRank} simply counts the number of non-zero pivots in the upper triangular matrix returned from \code{myPartialPivot}.
+
+Note that, even with partial pivoting, the computation still suffer from the precision issue of floating-point arithmetic. For this reason, in the implementation for \code{myRank}, I have rounded pivot entries to the tenth decimal place to determine if they are ``true zeroes."
+
+For example, consider a matrix
+$$
+A=\begin{pmatrix}
+    1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9
+\end{pmatrix}.
+$$
+
+For the first pivot, we would row swap $R_3$ and $R_1$ and perform the row eliminations as follows.
+
+$$
+\begin{pmatrix}
+     7 & 8 & 9 \\
+     4 & 5 & 6 \\
+     1 & 2 & 3
+\end{pmatrix}
+\xrightarrow[]{-\frac{4}{7}R_1 + R_2 \to R_2}
+\begin{pmatrix}
+     7 & 8 & 9 \\
+     0 & \sfrac{3}{7} & \sfrac{6}{7} \\
+     1 & 2 & 3
+\end{pmatrix}
+\xrightarrow[]{-\frac{1}{7}R_1 + R_3 \to R_3}
+\begin{pmatrix}
+     7 & 8 & 9 \\
+     0 & \sfrac{3}{7} & \sfrac{6}{7} \\
+     0 & \sfrac{6}{7} & \sfrac{12}{7}
+\end{pmatrix}
+$$
+
+For the second pivot, no swap is necessary as $\frac{3}{7}>\frac{6}{7}$. So, we perform the row operation $-\frac{1}{2}R_2 + R_3 \to R_3$.
+
+$$
+\begin{pmatrix}
+     7 & 8 & 9 \\
+     0 & \sfrac{6}{7} & \sfrac{12}{7} \\
+     0 & \sfrac{3}{7} & \sfrac{6}{7}
+\end{pmatrix}
+\xrightarrow[]{-\frac{1}{2}R_2 + R_3 \to R_3}
+\begin{pmatrix}
+     7 & 8 & 9 \\
+     0 & \sfrac{6}{7} & \sfrac{12}{7} \\
+     0 & 0 & 0
+\end{pmatrix}
+$$
+
+The above should be our upper triangular matrix, $U$. However, due floating point error, the result is not quiet zero. In MATLAB, when we display $U$ using \code{format rational}, it displays:
+
+\begin{verbatim}
+       7              8              9       
+       0              6/7           12/7     
+       0              *              *   
+\end{verbatim}
+
+where the asterisks denote that the denominator is too large. By using \code{format long} we can see that the result is pretty much zero:
+
+\begin{verbatim}
+    
+   7.000000000000000   8.000000000000000   9.000000000000000
+                   0   0.857142857142857   1.714285714285714
+                   0   0.000000000000000   0.000000000000000
+\end{verbatim}
+
+Using \code{format longG} we can see that the stored values aren't quiet zero. Hence, I have rounded the digits to ten decimal places.
+
+\begin{verbatim}
+       7                         8                         9
+       0         0.857142857142857          1.71428571428571
+       0      5.55111512312578e-17      1.11022302462516e-16
+\end{verbatim}
+
+\subsection*{Part C}
+
+Yes, the function virtually always returns 3. Since the question did not specify the bounds for the values from which a matrix could be generated, I simply used \code{rand(5, 3)} and \code{rand(3, 5)} to generate a $5\times3$ and $3\times5$ matrix, respectively. As such, it is virtually impossible for two or more rows to be identical or be a multiple of each other.
+
+Furthermore, the floating-point precision issue discussed in part (b) would almost certainly ensure that the result appears to be full rank --- especially when the values in the matrix are floating-point numbers to begin with --- as values that should be zero may instead be interpreted as non-zero.
+
+\end{document}
