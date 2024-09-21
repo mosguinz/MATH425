@@ -40,7 +40,7 @@ See \code{math425hw2.m}.
 
 Using \code{myPartialPivot}, \code{myRank} simply counts the number of non-zero pivots in the upper triangular matrix returned from \code{myPartialPivot}.
 
-Note that, even with partial pivoting, the computation still suffer from the precision issue of floating-point arithmetic. For this reason, in the implementation for \code{myRank}, I have rounded pivot entries to the tenth decimal place to determine if they are ``true zeroes."
+Note that, even with partial pivoting, the computation still suffer from the precision issue of floating-point arithmetic. For this reason, in the implementation for \code{myRank}, I have rounded pivot entries to the tenth decimal place to determine whether they are really zeroes.
 
 For example, consider a matrix
 $$
@@ -71,7 +71,7 @@ $$
 \end{pmatrix}
 $$
 
-For the second pivot, no swap is necessary as $\frac{3}{7}>\frac{6}{7}$. So, we perform the row operation $-\frac{1}{2}R_2 + R_3 \to R_3$.
+Then, for the second pivot, we perform the row operation $-\frac{1}{2}R_2 + R_3 \to R_3$. This also happens to take out the third pivot. Thus, the rank is 2.
 
 $$
 \begin{pmatrix}
