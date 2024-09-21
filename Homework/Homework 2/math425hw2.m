@@ -11,6 +11,9 @@ function U = myPartialPivot(A)
         error("`A` must be an n x n matrix, got: %d x %d", m, n)
     end
 
+    % Keep track of row swaps, see Question 2(c).
+    rowSwaps = 0;
+
     for j = 1:n  % for each column
 
         % Locate the row with biggest absolute value.
@@ -34,8 +37,7 @@ function U = myPartialPivot(A)
             pivotRow = A(j,:);
             A(j,:) = A(maxRowIndex, :);
             A(maxRowIndex, :) = pivotRow;
-        else
-            disp("No swap required")
+            rowSwaps = rowSwaps + 1;
         end
         
         % Eliminate rows.
@@ -44,7 +46,9 @@ function U = myPartialPivot(A)
             A(i,:) = A(i,:) - ratio * A(j,:);
         end
     end
+
     U = A;
+    fprintf("The number of row interchanges is %d.", rowSwaps)
 end
 
 % 1(b)
