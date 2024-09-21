@@ -19,7 +19,7 @@
 \newcommand{\code}[1]{\texttt{#1}}
 
 \lhead{MATH 425}
-\chead{Homework 1}
+\chead{Homework 2}
 \rhead{Sitthisarnwattanachai}
 
 \title{510 HW1}
@@ -71,7 +71,7 @@ $$
 \end{pmatrix}
 $$
 
-Then, for the second pivot, we perform the row operation $-\frac{1}{2}R_2 + R_3 \to R_3$. This also happens to take out the third pivot. Thus, the rank is 2.
+For the second pivot, we would row swap $R_3$ and $R_2$, and perform the row as follows. This also happens to eliminate the third pivot. Thus, the rank is 2.
 
 $$
 \begin{pmatrix}
@@ -117,5 +117,52 @@ Using \code{format longG} we can see that the stored values aren't quiet zero. H
 Yes, the function virtually always returns 3. Since the question did not specify the bounds for the values from which a matrix could be generated, I simply used \code{rand(5, 3)} and \code{rand(3, 5)} to generate a $5\times3$ and $3\times5$ matrix, respectively. As such, it is virtually impossible for two or more rows to be identical or be a multiple of each other.
 
 Furthermore, the floating-point precision issue discussed in part (b) would almost certainly ensure that the result appears to be full rank --- especially when the values in the matrix are floating-point numbers to begin with --- as values that should be zero may instead be interpreted as non-zero.
+
+\section*{Question 2}
+
+The relevant snippets are defined in the \code{math425hw2.m} file, under the section \code{\%\% Question 2}.
+
+\subsection*{Part A}
+
+Let $A = \begin{pmatrix}
+    4 & 1 & 1 & 1 \\
+    1 & 4 & 1 & 1 \\
+    1 & 1 & 4 & 1 \\
+    1 & 1 & 1 & 4 \\
+\end{pmatrix}
+$. $A$ is clearly not diagonal and the sum of the off-diagonal entries in each column is 3, and all the diagonal entries (pivots) are 4. Since the diagonal entries are greater than the sum of the absolute values of the off-diagonal entries in each column, $A$ is a $4\times4$ strictly column diagonally dominant matrix.
+
+\subsection*{Part B}
+
+In Gaussian elimination with partial pivoting, at each step, the algorithm searches for the largest absolute value in the current column below the diagonal and swaps rows if necessary to ensure that this value is used as the pivot. Row interchanges occur if an off-diagonal element is larger than the diagonal element.
+
+If a matrix $A$ is a strictly column diagonally dominant matrix, then the absolute value of the entry $a_{jj}$ for any column $j$ must be strictly larger than the (sum of the) absolute values of all other entries in that column. Thus, no row interchanges will occur.
+
+\subsection*{Part C}
+
+In \code{myPartialPivot}, a counter was added to keep track of the number of row interchanges. Sure enough, using the matrix $A$ in part (a) yields the following output:
+
+\begin{verbatim}
+The number of row interchanges is 0.
+ans =
+
+       4              1              1              1       
+       0             15/4            3/4            3/4     
+       0              0             18/5            3/5     
+       0              0              0              7/2     
+\end{verbatim}
+
+To verify that the function works correctly when row interchanges are required, I tested it using the matrix from part 1(b), which we demonstrated needs two row interchanges. The output for that matrix is as follows:
+
+\begin{verbatim}
+The number of row interchanges is 2.
+ans =
+
+       7              8              9       
+       0              6/7           12/7     
+       0              *              *     
+\end{verbatim}
+
+Again, the asterisks in the second output are due to floating-point precision errors, as discussed in that question.
 
 \end{document}
