@@ -41,8 +41,7 @@ function U = myPartialPivot(A)
         % Eliminate rows.
         for i = j+1:m
             ratio = A(i,j) / A(j,j);
-            format long
-            A(i,:) = A(i,:) - ratio * A(j,:)
+            A(i,:) = A(i,:) - ratio * A(j,:);
         end
     end
     U = A;
@@ -58,7 +57,11 @@ function r = myRank(A)
     U = myPartialPivot(A);
     r = 0;
     for i = 1:n
-        if U(i,i) == 0
+        %%%%%% YOU MUST ROUND TO AVOID                  %%%%%%
+        %%%%%% FLOATING-POINT ARITHMETIC ISSUES         %%%%%%
+        %%%%%% AROUND 10 D.P. APPEARS TO BE ACCEPTABLE. %%%%%%
+        %%%%%% SEE REPORT FOR MORE INFORMATION.         %%%%%%
+        if round(U(i,i), 10) == 0
             break
         end
         r = r + 1;
