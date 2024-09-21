@@ -77,3 +77,29 @@ P = rand(5, 3)
 Q = rand(3, 5)
 A = P * Q
 rank(A)
+
+
+%% Question 2
+
+% 2(a)
+A = [
+    4 1 1 1;
+    1 4 1 1;
+    1 1 4 1;
+    1 1 1 4;
+];
+
+% 2(c)
+disp("Testing partial pivoting with the matrix:")
+disp(A)
+myPartialPivot(A)
+
+% Testing with swaps
+B = [
+    1 2 3;
+    4 5 6;
+    7 8 9;
+];
+disp("Testing partial pivoting with the matrix:")
+disp(B)
+myPartialPivot(B)
