@@ -23,6 +23,11 @@ function U = myPartialPivot(A)
                 maxRowIndex = i;
             end
         end
+        
+        % If everything is zero below, skip.
+        if maxAbsValue == 0
+            continue
+        end
 
         % Perform swap, if necessary.
         if maxRowIndex ~= j
