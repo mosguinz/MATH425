@@ -1,6 +1,6 @@
 % Homework 2
  
-format default  % Display fractions where possible.
+format rational  % Display fractions where possible.
 
 %% Question 1
 
@@ -68,9 +68,8 @@ function r = myRank(A)
     end
 end
 
-
-% a = [2 -1 2; -1 -1 3; 3 0 -2];
-%a = [1 2 3; 2 4 6; 2 4 6; ];
- a = [1 2 3; 4 5 6; 7 8 9];
-myRank(a)
-rank(a)
+% 1(c)
+P = rand(5, 3)
+Q = rand(3, 5)
+A = P * Q
+rank(A)
