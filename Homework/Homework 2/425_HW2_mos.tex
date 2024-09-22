@@ -165,4 +165,67 @@ ans =
 
 Again, the asterisks in the second output are due to floating-point precision errors, as discussed in that question.
 
+\section*{Question 3}
+
+A symmetric matrix $A$ is a matrix such that $A=A^\top$. That is, if $A$ is square and all of its entries satisfy $a_{ij}=a_{ji}$ for all indices $i$ and $j$. If we are able to reduce $A$ through Gaussian elimination such that the resulting matrix $D$ is symmetric, it \textit{necessarily} follows that the all the off-diagonal entries in the matrix must be zero. That is,
+
+$$
+A = \begin{pNiceArray}{ccccc}
+    a_{1,1} & a_{1,2} & \Cdots & & a_{1,n} \\
+    a_{1,2} & a_{2,2} & \Cdots & & a_{2,n} \\
+    \Vdots  & \Vdots  &        &            \\
+            &         &        & \Ddots & \Vdots \\
+    a_{1,n} & a_{n,2} & \Cdots & & a_{n,n}
+\end{pNiceArray}
+\quad
+\leadsto
+\quad
+D = \begin{pNiceArray}{ccccc}
+    d_{1,1} & 0       & \Cdots &        & 0         \\
+    0       & d_{2,2} &        &        &           \\
+    \Vdots  & 0       &        &        & \Vdots         \\
+            & \Vdots  &        & \Ddots & 0   \\
+    0       & 0       & \Cdots & 0      & d_{n,n}     
+\end{pNiceArray}.
+$$
+
+If $A$ is symmetric and regular, then it may be factored as $A=LDL^\top$, where $L$ is a lower unitriangular matrix and $D$ is a diagonal matrix with nonzero diagonal entries (Olver and Shakiban 45).
+
+By Theorem 1.29 from the text, the $LU$ factorization of $A$ may be written as $A=LDV$, where $L$ is a lower unitriangular matrix, $D$ is a diagonal matrix with nonzero diagonal entries, and $V$ is an upper unitriangular matrix. Here, $U=DV$ where $D$ contains the corresponding pivots of $U$ on its diagonal, with all its other off-diagonal entries as zero, and $V$ be derived from $U$, where each row is divided by the value of its pivot (ibid. 41).
+
+The factorization of $A=LDV$ shows that if $A$ is symmetric, then taking the transpose of $A$ yields
+$$
+A = A^\top = (LDV)^\top = V^\top D^\top L^\top.
+$$
+
+To find such a diagonal matrix $D$, we first obtain the upper triangular matrix $U$ by performing Gaussian elimination as usual. Then, where $U=DV$ as defined above, we have that
+\begin{align*}
+    U &= DV
+    \\
+    &= \begin{pNiceArray}{ccccc}
+        u_{1,1} & u_{1,2} & \Cdots & & u_{1,n} \\
+        0 & u_{2,2} & & & \Vdots \\
+        \Vdots & & & \\
+        & & & \Ddots\\
+        0 & 0 & \Cdots & & u_{n,n}
+    \end{pNiceArray}
+    \\
+    &= \begin{pNiceArray}{ccccc}
+        d_{1,1} & 0 & \Cdots & & 0 \\
+        0 & d_{2,2} & & & \Vdots \\
+        \Vdots & & & \\
+        & & & \Ddots\\
+        0 & 0 & \Cdots & & d_{n,n}
+    \end{pNiceArray}
+    \begin{pNiceArray}{ccccc}
+        1 & \frac{u_{1,2}}{u_{1,1}} & \Cdots & & \frac{u_{1,n}}{u_{1,1}} \\
+        0 & 1 & \frac{u_{2,3}}{u_{2,2}} & \Cdots & \frac{u_{2,n}}{u_{2,2}} \\
+        \Vdots & & & & \Vdots \\
+        & & & \Ddots & \frac{u_{n-1,n}}{u_{n-1,n-1}}\\
+        0 & 0 & \Cdots & & 1
+    \end{pNiceArray}
+\end{align*}
+
+where $D$ is the diagonal matrix. Again, since $A$ is symmetric $D=D^\top$ must be automatically be symmetric. 
+
 \end{document}
