@@ -22,6 +22,7 @@ rank([v_1, v_2, v_3, v_4])  % rank = 2, so no.
 
 %% Question 4
 
+% 4(a)
 function B = myGS(A)
     [m, n] = size(A);
     if n > m
@@ -31,7 +32,7 @@ function B = myGS(A)
         error("Expecting rank(A) = %d, got rank(A) = %d", n, rank(A))
     end
     
-    B = zeros(m, n)
+    B = zeros(m, n);
     for i = 1:n
         % Set the first vector, v_1 = a_1
         if i == 1
@@ -39,16 +40,22 @@ function B = myGS(A)
             continue
         end
         
-        w = A(:, i);     % column to orthogonalize
-        v_i = zeros(m);  % to hold the orthogonalized
+        w_i = A(:, i);          % column to orthogonalize
+        v_i = w_i;              % to hold the orthogonalized
         for j = 1:i-1
             v_j = B(:,j);
-            v_i = v_i - (dot(v_j, w) / dot(w, w)) * w;
+            v_i = v_i - (dot(w_i, v_j) / dot(v_j, v_j) * v_j);
         end
-        v_i
+        
+        % Place the orthogonalized vector in B.
+        B(:,i) = v_i;
+    end
+
+    % Normalize
+    for i = 1:n
+        B(:,i) = B(:,i) / norm(B(:,i));
     end
 end
-
 
 % 4(b)
 myGS([
