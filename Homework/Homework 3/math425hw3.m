@@ -33,8 +33,8 @@ function B = myGS(A)
     end
     
     B = zeros(m, n);
-    for i = 1:n
 
+    for i = 1:n
         w_i = A(:, i);          % column to orthogonalize
         v_i = w_i;              % to hold the orthogonalized
         for j = 1:i-1
@@ -72,8 +72,8 @@ function B = myGS2(A)
     end
     
     B = zeros(m, n);
+
     for i = 1:n
-        
         w_i = A(:, i);          % column to orthogonalize
         v_i = w_i;              % to hold the orthogonalized
         for j = 1:i-1
