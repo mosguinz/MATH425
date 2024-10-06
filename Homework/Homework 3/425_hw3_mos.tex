@@ -127,27 +127,26 @@ $$
 \end{pmatrix}
 $$.
 And so, we have that:
-\begin{align*}
+$$
     A = \vect{v}\vect{w}^\top 
-    &= \begin{pmatrix}
+    = \begin{pmatrix}
         c_1 \\ c_2 \\ \vdots \\ c_m
     \end{pmatrix}
     \begin{pmatrix}
         a_{1,1}  a_{1,2} & \cdots & a_{1,n}
     \end{pmatrix}
-    \\
-    &= \begin{pmatrix}
+    = \begin{pmatrix}
         c_1a_{1,1} & c_1a_{1,2} & \cdots & c_1a_{1,n} \\
         c_2a_{1,1} & c_2a_{1,2} & \cdots & c_2a_{1,n} \\
         \vdots & \vdots & \ddots & \vdots \\
         c_ma_{1,1} & c_ma_{1,2} & \cdots & c_ma_{1,n} \\
     \end{pmatrix},
-\end{align*}
+$$
 which is precisely an $m\times n$ matrix with rank one. We can verify this by performing Gaussian elimination in the manner described in 1(a). Again, this holds for $\vect{v},\vect{w}\neq\vect{0}$.
 
 \section*{Question 2}
 
-Refer to Section \code{\%\% Question 2} in the \code{math425hw.m} file for the relevant code.
+Refer to Section \code{\%\% Question 2} in the \code{math425hw3.m} file for the relevant code.
 
 Using MATLAB, we can simply augment the vectors into a matrix and use \code{rref} to find its reduced-row echelon form.
 
@@ -206,11 +205,16 @@ Since $\vect{v}_1$, $\vect{v}_2$, $\vect{v}_3$, $\vect{v}_4 \in \R^3$ and there 
 
 \subsection*{Part C}
 
-$\vect{v}_1$, $\vect{v}_2$, $\vect{v}_3$, $\vect{v}_4$ do not form a basis for $\R^3$ because they are linearly dependent. In 3(a), we found that a matrix comprised of these column vectors is not full rank. Specifically, its rank is $2$. This means that they are only two linearly independent vectors in the set and are therefore not sufficient to span $\R^3$.
+$\vect{v}_1$, $\vect{v}_2$, $\vect{v}_3$, $\vect{v}_4$ do not form a basis for $\R^3$ because they are linearly dependent. In 3(a), we found that a matrix comprised of these column vectors is not full rank. Specifically, its rank is $2$. This means that they are only two linearly independent vectors in the set and are therefore not sufficient to span $\R^3$. As such, it is not possible to choose a subset to be a basis of $\R^3$.
 
 \subsection*{Part D}
 
 In 3(a), we found that a matrix comprised of these column vectors has a rank of 2. As such, a basis of subspace spanned by these vectors will contain two vectors. Hence, cardinality of the basis i.e., the \textit{dimension} of $\operatorname{span} \set{\vect{v}_1, \vect{v}_2, \vect{v}_3, \vect{v}_4}$ is 2.
 
+\section*{Question 4}
+
+\subsection*{Parts A through C}
+
+Refer to Section \code{\%\% Question 3} in the \code{math425hw3.m} file for the relevant code.
 
 \end{document}
