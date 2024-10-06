@@ -34,12 +34,7 @@ function B = myGS(A)
     
     B = zeros(m, n);
     for i = 1:n
-        % Set the first vector, v_1 = a_1
-        if i == 1
-            B(:,i) = A(:,i);
-            continue
-        end
-        
+
         w_i = A(:, i);          % column to orthogonalize
         v_i = w_i;              % to hold the orthogonalized
         for j = 1:i-1
@@ -78,11 +73,6 @@ function B = myGS2(A)
     
     B = zeros(m, n);
     for i = 1:n
-        % Set the first vector, v_1 = a_1
-        if i == 1
-            B(:,i) = A(:,i);
-            continue
-        end
         
         w_i = A(:, i);          % column to orthogonalize
         v_i = w_i;              % to hold the orthogonalized
