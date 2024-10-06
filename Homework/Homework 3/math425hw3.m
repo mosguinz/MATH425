@@ -53,6 +53,7 @@ function B = myGS(A)
 end
 
 % 4(b)
+disp("Using `myGS`. Normalizing afterwards.")
 myGS([
     1 0 1 1;
     0 1 0 1;
@@ -86,6 +87,7 @@ function B = myGS2(A)
     end
 end
 
+disp("Using `myGS2`. Normalizing on-the-fly.")
 myGS2([
     1 0 1 1;
     0 1 0 1;
