@@ -64,3 +64,41 @@ myGS([
     1 0 0 1;
     0 -1 1 1
 ])
+
+
+% 4(c)
+function B = myGS2(A)
+    [m, n] = size(A);
+    if n > m
+        error("`A` must be an m x n matrix where n <= m, got %d x %d", m, n)
+    end
+    if rank(A) < n
+        error("Expecting rank(A) = %d, got rank(A) = %d", n, rank(A))
+    end
+    
+    B = zeros(m, n);
+    for i = 1:n
+        % Set the first vector, v_1 = a_1
+        if i == 1
+            B(:,i) = A(:,i);
+            continue
+        end
+        
+        w_i = A(:, i);          % column to orthogonalize
+        v_i = w_i;              % to hold the orthogonalized
+        for j = 1:i-1
+            v_j = B(:,j);
+            v_i = v_i - (dot(w_i, v_j) / dot(v_j, v_j) * v_j);
+        end
+        
+        % Place the orthonormalized vector in B.
+        B(:,i) = v_i / norm(v_i);
+    end
+end
+
+myGS2([
+    1 0 1 1;
+    0 1 0 1;
+    1 0 0 1;
+    0 -1 1 1
+])
