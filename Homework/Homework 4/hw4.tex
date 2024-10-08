@@ -1,0 +1,60 @@
+\documentclass[11pt]{amsart}
+
+\usepackage{amsthm, amssymb,amsmath}
+\usepackage{graphicx}
+
+\theoremstyle{definition}  % Heading is bold, text is roman
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+
+\newcommand{\ojo}[1]{{\sffamily\bfseries\boldmath[#1]}}
+
+\oddsidemargin 0pt
+\evensidemargin 0pt
+\marginparwidth 0pt
+\marginparsep 10pt
+\topmargin -10pt
+\headsep 10pt
+\textheight 8.4in
+\textwidth 7in
+
+%\input{../header}
+
+
+\begin{document}
+
+%\homework{}{Homework IV}
+
+
+\noindent For this homework, include all code and computations in a {\tt MATLAB} file named {\tt math425hw4.m}.
+You will need to submit this file along with a document containing your answers which do not
+involve {\tt MATLAB}. Do not submit a zipped (compressed) folder. \\
+
+
+\noindent {\bf 1.} Recall that an $n \times n$ matrix $Q$ is orthogonal if the columns of $Q$ form an orthonormal basis of $\mathbb{R}^n$. This is equivalent to $Q^TQ = QQ^T = I_n$. \\
+{\bf a)} Show that the product of two $n \times n$ orthogonal matrices is an orthogonal matrix.  \\
+{\bf b)} Prove that if $Q$ is an orthogonal matrix, so is $Q^T$. Deduce that the rows of an orthogonal matrix also form an orthonormal basis. \\
+{\bf c)} Show that $\begin{pmatrix} \cos \theta & - \sin \theta \\ \sin \theta & \cos \theta \end{pmatrix}$ is an orthogonal matrix for any $0 \leq \theta < 2\pi$. What does this matrix do? \\
+{\bf d)} Prove that if $Q$ is an $n \times n$ orthogonal matrix then $||Q {\bf x} || = ||{\bf x}||$ for any ${\bf x} \in \mathbb{R}^n$. \\
+
+\noindent{\bf 2.}  Let $H_n= Q_nR_n$ be the $QR$ factorization of the $n \times n$ Hilbert matrix (see Homework 1). \\
+{\bf a)} Find $Q_n$ and $R_n$ for $n=5,10,20$, using {\tt MATLAB}'s command ${\tt [Q,R] = qr(A)}$.  \\
+{\bf b)} Let ${\bf x^*} \in \mathbb{R}^n$ be the vector with $i$th entry ${\bf x^*}_i = (-1)^i \frac{i}{i+1}$. For the values $n$ as in part {\bf a)} compute ${\bf b^*} = H_n{\bf x^*}$ and then
+solve the system $H_n{\bf x} = {\bf b^*}$ using first Gaussian elimination and then $QR$ factorization. \\
+{\bf c)} Compare the results to the correct solution ${\bf x^*}$ and discuss the pros and cons of each method. \\
+
+\noindent {\bf 3.} Create a function called {\tt myHouseholder} which takes as input two non-zero vectors ${\bf v}$ and ${\bf w}$ in $\mathbb{R}^n$. Your function
+should first normalize these vectors to vectors ${\bf \hat{v}}$ and ${\bf \hat{w}}$, and then compute the Householder matrix $H$ so that $H {\bf \hat{v}} = {\bf \hat{w}}$
+and $H {\bf \hat{w}} = {\bf \hat{v}}$. Test your code on three randomly generated vectors in $\mathbb{R}^4$. 
+
+
+
+
+
+ 
+
+
+\end{document}
+
+
