@@ -1,0 +1,211 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fancyhdr,latexsym,amssymb,amsmath,graphicx}
+\usepackage{algorithm}
+\usepackage{cancel}
+\usepackage[noend]{algpseudocode}
+\usepackage[pdftex]{hyperref}
+\pagestyle{fancy}
+\usepackage[parfill]{parskip} % Do not indent between empty lines
+\usepackage{mathtools}
+\usepackage{nicematrix}
+\usepackage{xfrac}
+\usepackage{bm}
+\usepackage{esvect}
+\usepackage{tikz}
+
+% For the \set notation
+\usepackage{xparse} 
+\DeclarePairedDelimiterX{\set}[1]{\{}{\}}{\setargs{#1}}
+\NewDocumentCommand{\setargs}{>{\SplitArgument{1}{;}}m}
+{\setargsaux#1}
+\NewDocumentCommand{\setargsaux}{mm}
+{\IfNoValueTF{#2}{#1} {#1\,\delimsize|\,\mathopen{}#2}}%{#1\:;\:#2}
+
+% Some common symbols
+\newcommand{\veq}{\mathrel{\rotatebox{90}{$=$}}}
+\newcommand{\vneq}{\mathrel{\rotatebox{90}{$\neq$}}}
+\newcommand{\vect}[1]{\vv{\mathbf{#1}}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\rank}{\operatorname{rank}}
+
+\lhead{MATH 425}
+\chead{Homework 4}
+\rhead{Sitthisarnwattanachai}
+
+\title{MATH 425 Homework 4}
+\author{mosguinz}
+\date{October 2024}
+
+\begin{document}
+
+\section*{Question 1}
+
+If $Q$ is an $n\times n$ orthogonal matrix, then $Q^\top Q = Q Q^\top = I_n$ where $I_n$ is the $n\times n$ identity matrix.
+
+\subsection*{Part A}
+
+Let $Q_1$ and $Q_2$ be orthogonal matrices. Then,
+\begin{align*}
+    (Q_1Q_2)^\top (Q_1Q_2) &= Q_2^\top \cancel{Q_1^\top Q_1} Q_2
+    = Q_2^\top Q_2
+    = I_n \\
+    &=(Q_1Q_2)(Q_1Q_2)^\top
+    = Q_1\cancel{Q_2Q_2^\top} Q_1^\top
+    = Q_1Q_1^\top
+    = I_n.
+\end{align*}
+
+Hence, $Q_1Q_2$ must be orthogonal.
+
+\subsection*{Part B}
+
+Suppose $Q^\top$ is an orthogonal matrix. Then,
+\begin{align*}
+    (Q^\top)^\top Q^\top &= QQ^\top = I_n \\
+    &= Q^\top(Q^\top)^\top = Q^\top Q = I_n.
+\end{align*}
+As such, $Q^\top$ must be orthogonal. Subsequently, if $Q$ is an orthogonal matrix (where its column form an orthonormal basis), then its rows must also form an orthonormal basis.
+
+\textbf{Proof:} Suppose $Q$ is made up of column vectors $\vect{q}_i$ for each column $i=1,\ldots,n$. If $Q$ is an $n\times n$ orthogonal matrix, then
+$$
+Q^\top Q
+\NiceMatrixOptions{xdots/line-style=solid}
+= \begin{pNiceMatrix}[nullify-dots,margin]
+    \Cdots & \vect{q}_1^\top & \Cdots \\
+    & \vdots & \\
+    \Cdots & \vect{q}_n^\top & \Cdots \\
+\end{pNiceMatrix}
+\begin{pNiceMatrix}[nullify-dots,margin]
+    \Vdots & & \Vdots \\
+    \vect{q}_1 & \cdots & \vect{q}_n \\
+    \Vdots & & \Vdots
+\end{pNiceMatrix}
+= \begin{pmatrix}
+    1 &   &  & 0 \\
+      & 1 &  &  \\
+     &   & \ddots & \\
+    0 & & & 1
+\end{pmatrix}
+= I_n.
+$$
+
+Since the columns $\vect{q}_i$ form an orthonormal basis of $\R^n$, the value of the diagonal entries $(i,i)$ is $\langle\vect{q}_i^\top, \vect{q}_i\rangle=1$ and the value of all other entries $(i,j)$ where $i\neq j$ is $\langle\vect{q}_i^\top, \vect{q}_j\rangle=0$. Thus, $||\vect{q}_i||=||\vect{q}_i^\top||=1$ for all rows $i$.
+
+% $$
+% Q^\top Q = \begin{pmatrix}
+%     q_{1,1} & q_{1,2} & \cdots & q_{1,n} \\
+%     q_{2,1} & q_{2,2} & \cdots & q_{2,n} \\
+%     \vdots & \vdots & \ddots & \vdots \\
+%     q_{n,1} & q_{n,2} & \cdots & q_{n,n}
+% \end{pmatrix}
+% \begin{pmatrix}
+%     q_{1,1} & q_{1,2} & \cdots & q_{1,n} \\
+%     q_{2,1} & q_{2,2} & \cdots & q_{2,n} \\
+%     \vdots & \vdots & \ddots & \vdots \\
+%     q_{n,1} & q_{n,2} & \cdots & q_{n,n}
+% \end{pmatrix}
+% $$
+
+\subsection*{Part C}
+
+Let $Q = \begin{pmatrix}
+    \cos\theta & -\sin\theta \\
+    \sin\theta & \cos\theta
+\end{pmatrix}$. Then, $Q^\top = \begin{pmatrix}
+    \cos\theta & \sin\theta \\
+    -\sin\theta & \cos\theta
+\end{pmatrix}$. As such,
+\begin{align*}
+    QQ^\top &= \begin{pmatrix}
+        \cos\theta & -\sin\theta \\
+        \sin\theta & \cos\theta
+    \end{pmatrix}\begin{pmatrix}
+        \cos\theta & \sin\theta \\
+        -\sin\theta & \cos\theta
+    \end{pmatrix}
+    \\
+    &= \begin{pmatrix}
+        \cos^2\theta + \sin^2\theta & \cos\theta\sin\theta - \sin\theta\cos\theta \\
+        \sin\theta\cos\theta - \sin\theta\cos\theta & \sin^2\theta + \cos^2\theta
+    \end{pmatrix}
+    = \begin{pmatrix}
+        1 & 0 \\
+        0 & 1
+    \end{pmatrix}
+    \\
+    &= Q^\top Q \\
+    &= \begin{pmatrix}
+        \cos\theta & \sin\theta \\
+        -\sin\theta & \cos\theta
+    \end{pmatrix}\begin{pmatrix}
+        \cos\theta & -\sin\theta \\
+        \sin\theta & \cos\theta
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+        \cos^2\theta + \sin^2\theta & -\cos\theta\sin\theta + \sin\theta\cos\theta \\
+        -\sin\theta\cos\theta + \sin\theta\cos\theta & \sin^2\theta + \cos^2\theta
+    \end{pmatrix}
+    = \begin{pmatrix}
+        1 & 0 \\
+        0 & 1
+    \end{pmatrix} \\
+    &= I_2.
+\end{align*}
+
+Thus, $Q = \begin{pmatrix}
+    \cos\theta & -\sin\theta \\
+    \sin\theta & \cos\theta
+\end{pmatrix}$ is an orthogonal matrix. This special matrix is known as the rotational matrix. Let $\vect{v}=\begin{pmatrix}
+    x \\ y
+\end{pmatrix}$ be a vector on the Cartesian plane. Applying $Q$ to a vector $\vect{v}$ will rotate it counterclockwise by $\theta$.
+$$
+Q\vect{v} = \begin{pmatrix}
+    \cos\theta & -\sin\theta \\
+    \sin\theta & \cos\theta
+\end{pmatrix}
+\begin{pmatrix}
+    x \\ y
+\end{pmatrix}
+= \begin{pmatrix}
+    x\cos\theta - y\sin\theta \\
+    x\sin\theta + y\cos\theta
+\end{pmatrix}
+$$
+
+For example, let $\vect{v}=\begin{pmatrix}
+    1 \\ 0
+\end{pmatrix}$ be a vector on an $xy$-plane. We can flip the vector across $y$-axis by rotating the $\vect{v}$ by $\theta=\pi$.
+
+$$
+-\vect{v}
+= \begin{pmatrix}
+    \cos\pi & -\sin\pi \\
+    \sin\pi & \cos\pi
+\end{pmatrix}
+\begin{pmatrix}
+    1 \\ 0
+\end{pmatrix}
+= \begin{pmatrix}
+    1(\cos\pi) - 0(\sin\pi) \\
+    1(\sin\pi) + 0(\cos\pi)
+\end{pmatrix}
+= \begin{pmatrix}
+    -1 \\ 0
+\end{pmatrix}
+$$
+
+\subsection*{Part D}
+
+By definition, the norm of a vector $\vect{x}\in\R^n$, is given by $||\vect{x}|| = \sqrt{\langle\vect{x},\vect{x}\rangle} = \sqrt{\vect{x}^\top \vect{x}}$. If $Q$ is an orthogonal matrix, then:
+\begin{align*}
+    ||Q\vect{x}|| &= \sqrt{\langle Q\vect{x}, Q\vect{x}\rangle} \\
+    &= \sqrt{(Q\vect{x})^\top (Q\vect{x})} \\
+    &= \sqrt{\vect{x}^\top \cancel{Q^\top Q}\vect{x}} \\
+    &= \sqrt{\langle\vect{x},\vect{x}\rangle} \\
+    &= ||\vect{x}||.
+\end{align*}
+
+
+\end{document}
