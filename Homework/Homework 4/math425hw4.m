@@ -111,3 +111,54 @@ x_delta_qr_10 = norm(x_qr_10 - xStar(10))
 x_delta_qr_20 = norm(x_qr_20 - xStar(20))
 
 %% Question 3
+
+function H = myHouseholder(v, w)
+    [len_v, n] = size(v);
+    if n ~= 1
+        error("Expecting a column vector `v`, got: %d x %d", m, len_v)
+    end
+    [len_w, n] = size(w);
+    if n ~= 1
+        error("Expecting a column vector `w`, got: %d x %d", m, len_w)
+    end
+    if len_v ~= len_w
+        error("Mismatch dimensions, `v` is in R^%d but `w` is in R^%d", len_v, len_w)
+    end
+
+    % Normalize.
+    v_hat = v / norm(v);
+    w_hat = w / norm(w);
+
+    % Edge case: if they are the same vectors
+    % Or divide by zero will occur!!!
+    if v_hat == w_hat
+        H = eye(len_w);
+        return
+    end
+    
+    % Apply Householder expression.
+    u = v_hat - w_hat;
+    H = eye(len_w) - 2 * (u * u') / (norm(u)^2);
+end
+
+% Assuming the question means three PAIRS of vectors.
+disp('Test 1:');
+v_1 = randn(4, 1);
+w_1 = randn(4, 1);
+H_1 = myHouseholder(v_1, w_1);
+disp(H_1 * (v_1 / norm(v_1)));
+disp(w_1 / norm(w_1));
+
+disp('Test 2:');
+v_2 = randn(4, 1);
+w_2 = randn(4, 1);
+H_2 = myHouseholder(v_2, w_2);
+disp(H_2 * (v_2 / norm(v_2)));
+disp(w_2 / norm(w_2));
+
+disp('Test 3:');
+v_3 = randn(4, 1);
+w_3 = randn(4, 1);
+H_3 = myHouseholder(v_3, w_3);
+disp(H_3 * (v_3 / norm(v_3)));
+disp(w_3 / norm(w_3));
