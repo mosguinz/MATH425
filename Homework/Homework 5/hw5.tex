@@ -1,0 +1,86 @@
+\documentclass[11pt]{amsart}
+
+\usepackage{amsthm, amssymb,amsmath}
+\usepackage{graphicx}
+
+\theoremstyle{definition}  % Heading is bold, text is roman
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+
+\newcommand{\ojo}[1]{{\sffamily\bfseries\boldmath[#1]}}
+
+\oddsidemargin 0pt
+\evensidemargin 0pt
+\marginparwidth 0pt
+\marginparsep 10pt
+\topmargin -10pt
+\headsep 10pt
+\textheight 8.4in
+\textwidth 7in
+
+%\input{../header}
+
+
+\begin{document}
+
+%\homework{}{Homework V}
+
+
+\noindent For this homework, include all code and computations in a {\tt MATLAB} file named {\tt math425hw5.m}.
+You will need to submit this file along with a document containing your answers which do not
+involve {\tt MATLAB}. {\bf Do not submit a zipped (compressed) folder}. \\
+
+\noindent
+{\bf 1.} Find the closest point from ${\bf b} = \begin{pmatrix} 1 \\ 1 \\ 2 \\-2 \end{pmatrix}$ to the subspace spanned by 
+$$\begin{pmatrix} 1 \\ 2 \\ -1 \\0 \end{pmatrix},  \,\, \begin{pmatrix} 0 \\ 1 \\ -2 \\ -1 \end{pmatrix}, \,\,  \begin{pmatrix} 1 \\ 0 \\ 3 \\ 2 \end{pmatrix}.$$
+Use any {\tt MATLAB} command that you think is useful to do this computation. \\
+
+\noindent
+{\bf 2.}  Find the least squares solution to the system $A {\bf x} = {\bf b}$  in {\it two} ways using {\tt MATLAB} where \\
+$$ A \, = \, \left( \begin{array}{rrr} 1 & 2 & -1 \\ 0 & -2 & 3 \\ 1 & 5 & -1 \\ -3 & 1 & 1 \end{array} \right) \quad \mbox{and} \quad
+{\bf b} \, = \, \left( \begin{array}{c} 0 \\ 5 \\ 6 \\ 8 \end{array} \right).$$
+However, you are not allowed to use {\tt b $\setminus$  A}.  \\
+
+
+\noindent
+{\bf 3.}  The median price (in thousands of dollars) of existing homes in the Minneapolis metropolitan area from 1989 to 1999 was:
+$$ \begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|} 
+\hline
+\mathrm{year} & 1989 & 1990 & 1991 & 1992 & 1993 & 1994 &1995 & 1996 & 1997 &1998 & 1999  \\
+\hline 
+\mathrm{price} & 86.4 & 89.8 & 92.8 & 96.0 & 99.6 & 103.1 & 106.3 & 109.5 & 113.3 & 120.0 & 129.5 \\
+\hline
+\end{array} $$  
+First find an equation of the least squares line for these data using {\tt MATLAB}. Then use the result to estimate the median price of a house in the year 2005, and 
+the year 2010, assuming the trend continues. \\ 
+
+\noindent
+{\bf 4.} Let $f(x)  = x^2$ on the interval $[0,2\pi]$. In this exercise you will compute the discrete Fourier coefficients  $c_0, c_1, \ldots, c_7$ of $f$ from the sample vector
+$$ {\bf f} \, = \, \begin{pmatrix} f_0 \\ f_1 \\ \vdots \\ f_7 \end{pmatrix}$$
+where $f_j = f(j2\pi/8)$ for $j=0,\ldots, 7$. \\
+{\bf a)} Compute the sample vector ${\bf f}$ in {\tt MATLAB}. \\
+{\bf b)} Next compute the vectors ${\bf \omega}_k  = (\zeta_8^{0k}, \zeta_8^{1k}, \zeta_8^{2k}, \ldots, \zeta_8^{7k})^T$ for $k=0,1, \ldots, 7$ where $\zeta_8 = e^{i(2\pi/8)}$.
+In {\tt MATLAB} the complex exponential can be computed by {\tt exp(i*2*pi/8)}.\\
+{\bf c)} Now compute $c_k = \langle {\bf f}, {\bf \omega}_k \rangle$ for $k=0, \ldots, 7$. The complex inner product $\langle v, w \rangle$ is computed by {\tt dot(v,w)} in {\tt MATLAB}.
+However, do not forget to scale the result by $1/8$ since we are using the scaled inner product for the discrete Fourier transform. \\
+{\bf d)} With the discrete Fourier coefficients you have computed, set $p(x) = c_0 \cdot 1 + c_1 e^{ix} + c_2 e^{i2x} + \cdots + c_7 e^{i7x}$ where $e^{ijx} = \cos(jx) + i \sin(jx)$.
+Write $p(x) = p_1(x) + i p_2(x)$ where $p_1(x)$ and $p_2(x)$ are real-valued functions. Compute $p_1(x)$. This is the function that reconstructs $f(x)$. \\
+{\bf e)} Find out how you can plot the graph of a function in {\tt MATLAB}. Then plot the graphs of $f(x)$ and $p_1(x)$ on the interval $[0,2\pi]$. What do you see? \\
+{\bf f)} Now we will compute a modified version of a reconstruction of the signal $f(x) = x^2$ on $[0,2\pi]$.  The discrete Fourier coefficients we will compute are $c_{-4}, c_{-3}, \ldots, c_3$.
+For this you will need ${\bf \omega}_k$ for $k=-4, -3, \ldots, 3$. And $c_k = \langle {\bf f}, {\bf \omega}_k \rangle$ for $k=-4, -3, \ldots, 3$. Again do not forget to scale the inner product by
+$1/8$. \\
+{\bf g)} Let $q(x) = c_{-4} e^{i(-4)x} + c_{-3} e^{i(-3)x} + \cdots + c_3 e^{i3x}$. Write $q(x)  = q_1(x) + i q_2(x)$, and compute $q_1(x)$. \\
+{\bf h)} Plot the graph of $f(x)$ and $q_1(x)$ on the interval $[0,2\pi]$. Now what do you observe? 
+
+
+
+
+
+
+ 
+
+
+\end{document}
+
+
