@@ -92,9 +92,9 @@ R\vect{x} = Q^\top\vect{b}.
 \end{array}
 $$
 
-Since $Q$ is orthogonal, $Q^\top Q=I$. And since $R$ is upper triangular, we can simply solve for $\vect{x}$ by performing backward substitution. With our ol' reliable \code{myBackwardSubstitution} and the $QR$ factorization of $A$, the least-squares solution is given by
+Since $Q$ is orthogonal, $Q^\top Q=I$. And since $R$ is upper triangular, we can simply solve for $\vect{x}$ by performing backward substitution. With the $QR$ factorization of $A$ and the magic of MATLAB, the least-squares solution is
 $$
-\vect{x} = \code{myBackwardSubstitution(R, Q' * b)} = \begin{pmatrix}
+\vect{x} = \code{fixed.backwardSubstitute(R, Q' * b)} = \begin{pmatrix}
     -1 \\ 2 \\ 3
 \end{pmatrix}.
 $$
