@@ -63,6 +63,8 @@ where $f_j = f(j2\pi/8)$ for $j=0,\ldots, 7$. \\
 {\bf b)} Next compute the vectors ${\bf \omega}_k  = (\zeta_8^{0k}, \zeta_8^{1k}, \zeta_8^{2k}, \ldots, \zeta_8^{7k})^T$ for $k=0,1, \ldots, 7$ where $\zeta_8 = e^{i(2\pi/8)}$.
 In {\tt MATLAB} the complex exponential can be computed by {\tt exp(i*2*pi/8)}.\\
 {\bf c)} Now compute $c_k = \langle {\bf f}, {\bf \omega}_k \rangle$ for $k=0, \ldots, 7$. The complex inner product $\langle v, w \rangle$ is computed by {\tt dot(v,w)} in {\tt MATLAB}.
+{\bf Correction: it appears that the complex inner product $\langle v , w \rangle = \sum_{i=1}^n v_i \overline{w_i}$ is not implemented as {\tt dot(v,w)}. Strangely, you need to use
+{\tt dot(w,v)}. Note the switch in the arguments. This is the only way to force complex conjugation on the coordinates of $w$. }
 However, do not forget to scale the result by $1/8$ since we are using the scaled inner product for the discrete Fourier transform. \\
 {\bf d)} With the discrete Fourier coefficients you have computed, set $p(x) = c_0 \cdot 1 + c_1 e^{ix} + c_2 e^{i2x} + \cdots + c_7 e^{i7x}$ where $e^{ijx} = \cos(jx) + i \sin(jx)$.
 Write $p(x) = p_1(x) + i p_2(x)$ where $p_1(x)$ and $p_2(x)$ are real-valued functions. Compute $p_1(x)$. This is the function that reconstructs $f(x)$. \\
