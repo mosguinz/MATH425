@@ -59,3 +59,23 @@ x = fixed.backwardSubstitute(R, Q'* b)
 R = chol(A' * A)
 y = fixed.forwardSubstitute(R, A' * b)
 x = fixed.backwardSubstitute(R, y)
+
+%% Question 3
+
+years = [1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999];
+prices = [86.4 89.8 92.8 96.0 99.6 103.1 106.3 109.5 113.3 120.0 129.5];
+
+% Construct system Ax = b.
+A = ones(11, 2);
+A(:, 2) = years';
+b = prices';
+
+% Solve A'Ax = A'b
+x_star = A' * A \ A' * b;
+alpha = x_star(1);
+beta = x_star(2);
+
+est_price = @(year) (alpha + beta * year) * 1000;
+fprintf("Using y = %.5fx + %.5f\n", alpha, beta)
+fprintf("Estimated median price in %d: $%.f\n", 2005, est_price(2005))
+fprintf("Estimated median price in %d: $%.f\n", 2010, est_price(2010))
