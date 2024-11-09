@@ -1,0 +1,128 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fancyhdr,latexsym,amssymb,amsmath,graphicx}
+\usepackage{algorithm}
+\usepackage{cancel}
+\usepackage[noend]{algpseudocode}
+\usepackage[pdftex]{hyperref}
+\pagestyle{fancy}
+\usepackage[parfill]{parskip} % Do not indent between empty lines
+\usepackage{mathtools}
+\usepackage{nicematrix}
+\usepackage{xfrac}
+\usepackage{bm}
+\usepackage{esvect}
+
+% For the \set notation
+\usepackage{xparse} 
+\DeclarePairedDelimiterX{\set}[1]{\{}{\}}{\setargs{#1}}
+\NewDocumentCommand{\setargs}{>{\SplitArgument{1}{;}}m}
+{\setargsaux#1}
+\NewDocumentCommand{\setargsaux}{mm}
+{\IfNoValueTF{#2}{#1} {#1\,\delimsize|\,\mathopen{}#2}}%{#1\:;\:#2}
+
+% Some common symbols
+\newcommand{\veq}{\mathrel{\rotatebox{90}{$=$}}}
+\newcommand{\vneq}{\mathrel{\rotatebox{90}{$\neq$}}}
+\newcommand{\vect}[1]{\vv{\mathbf{#1}}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\rank}{\operatorname{rank}}
+
+\lhead{MATH 425}
+\chead{Homework 5}
+\rhead{Sitthisarnwattanachai}
+
+\title{MATH 425 Homework 5}
+\author{mosguinz}
+\date{October 2024}
+
+\begin{document}
+
+\section*{Question 1}
+
+Let $A$ be a matrix composed of the column vectors, such that $A = \begin{pmatrix}
+    1 & 0 & 1 \\
+    2 & 1 & 0 \\
+    -1 & -2 & 3 \\
+    0 & -1 & 2
+\end{pmatrix}$. We first note that the system contains no solution:
+$$
+\operatorname{rref}\begin{pNiceArray}{c|c}
+    A & \vect{b}    
+\end{pNiceArray} =\begin{pNiceArray}{ccc|c}
+     1 & 0 &  1 & 0 \\
+     0 & 1 & -2 & 0 \\
+     0 & 0 &  0 & 1 \\
+     0 & 0 &  0 & 0 \\
+\end{pNiceArray}
+$$
+
+Using \verb|A\b|, we find that the least-squares solution is
+$
+\vect{x}^* = \verb|A\b| = \begin{pmatrix}
+    1/4 \\ 0 \\ 1/4
+\end{pmatrix}
+$. Hence, the closest point from $\vect{b}$ is
+$
+A\vect{x}^* = \verb|A * (A\b)| = \begin{pmatrix}
+    1/2 \\ 1/2 \\ 1/2 \\ 1/2
+\end{pmatrix}
+$.
+
+\section*{Question 2}
+
+Refer to section \code{\%\% Question 2} in the \code{math425hw5.m} file for the relevant code.
+
+\subsection*{Method one}
+
+This method involves using the $QR$ decomposition. Where $A = QR = \begin{pmatrix}
+    1 & 2 & 1 \\
+    2 & 1 & 0 \\
+    -1 & -2 & 3 \\
+    0 & -1 & 2
+\end{pmatrix}$, we have that
+
+$$
+\begin{array}{ll}
+A\vect{x} = \vect{b} \\
+QR\vect{x} = \vect{b} \\
+\cancel{Q^\top Q}R\vect{x} = Q^\top\vect{b}  \\
+R\vect{x} = Q^\top\vect{b}.
+\end{array}
+$$
+
+Since $Q$ is orthogonal, $Q^\top Q=I$. And since $R$ is upper triangular, we can simply solve for $\vect{x}$ by performing backward substitution. With our ol' reliable \code{myBackwardSubstitution} and the $QR$ factorization of $A$, the least-squares solution is given by
+$$
+\vect{x} = \code{myBackwardSubstitution(R, Q' * b)} = \begin{pmatrix}
+    -1 \\ 2 \\ 3
+\end{pmatrix}.
+$$
+
+\subsection*{Method two}
+
+This method involves using the Cholesky decomposition. Since $A^\top A$ is symmetric, Using MATLAB, we can find the Cholesky factorization using \verb|chol(A'A)|. Where $R$ is  an upper triangular matrix such that $R^\top R = A^\top A$, we have that
+\begin{align*}
+    A^\top A\vect{x} = A^\top\vect{b} &\iff R^\top R\vect{x} = A^\top\vect{b} \\
+    &\iff R^\top\vect{y} = A^\top\vect{b}
+\end{align*}
+where $\vect{y} = R\vect{x}$.
+
+As such, we can compute the least-squares solution in two steps. First, solve the lower triangular system for $\vect{y}$:
+$$
+\vect{y} = \code{fixed.forwardSubstitute(R', A' * b)} = \begin{pNiceArray}{r}
+    -5.4272... \\
+    6.0554... \\
+    7.6731...
+\end{pNiceArray}
+$$
+
+Then, solve the upper triangular system, giving us the least-squares solution
+$$
+\vect{x} = \code{fixed.backwardSubstitute(R, y)} = \begin{pNiceArray}{c}
+    -1 \\ 2 \\3
+\end{pNiceArray}.
+$$
+
+
+\end{document}
