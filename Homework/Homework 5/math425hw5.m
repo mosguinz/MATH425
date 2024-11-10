@@ -78,3 +78,32 @@ for k = 0:n-1
     fprintf("omega_%d =\n\n", k)
     disp(omega_k)
 end
+
+% 4(c)
+p_coeffs = zeros(n, 1);
+for k = 0:n-1
+    omega_k = omegas(:, k+1);
+    p_coeffs(k+1) = 1/8 * dot(omega_k, f_hat);
+end
+
+% 4(d)
+syms x
+p_fourier = poly2sym(flip(p_coeffs), x)  % highest degree first, so need to reverse order
+p = subs(p_fourier, x, exp(1i*x))
+
+p_1 = real(p);
+p_2 = imag(p);
+
+% 4(e)
+x = 0:pi/100:2*pi;
+y = x.^2;
+plot(x, y, x, subs(p_1))
+
+xticks([0:2*pi/8:2*pi]);
+xticklabels({'0', '', '\pi/2', '', '\pi', '', '3\pi/2', '', '2\pi'});
+grid on;
+
+title("Fourier approximation of f(x) = x^2 with n = 8");
+xlabel("x");
+ylabel("f(x)");
+legend("f(x) = x^2", "p_1(x)");
