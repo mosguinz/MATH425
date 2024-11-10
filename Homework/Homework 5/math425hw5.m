@@ -95,6 +95,9 @@ p_1 = real(p);
 p_2 = imag(p);
 
 % 4(e)
+% The graph somewhat resembles f(x). However, by design, 
+% our approximation intersects with f at all the sample points.
+figure;
 x = 0:pi/100:2*pi;
 y = x.^2;
 plot(x, y, x, subs(p_1))
@@ -107,3 +110,52 @@ title("Fourier approximation of f(x) = x^2 with n = 8");
 xlabel("x");
 ylabel("f(x)");
 legend("f(x) = x^2", "p_1(x)");
+
+
+% 4(f)
+zeta_8 = exp(1i * 2 * pi / n);
+mod_omegas = zeros(n, n);
+i = 1;
+for k = -4:3
+    omega_k = zeros(n, 1);
+    for j = 0:n-1
+        omega_k(j+1) = zeta_8^(j*k);
+    end
+    mod_omegas(:, i) = omega_k;
+    fprintf("omega_%d =\n\n", k)
+    disp(omega_k)
+    i = i + 1;
+end
+
+q_coeffs = zeros(n, 1);
+for k = 0:n-1
+    omega_k = mod_omegas(:, k+1);
+    q_coeffs(k+1) = 1/8 * dot(omega_k, f_hat);
+end
+
+% 4(g)
+% Sadly can't use poly2sym here for negative powers.
+% So, we need to use the actual identity here.
+q_1 = zeros(n, 1);
+i = 1;
+for k = -4:3
+    q_1 = q_1 + real(q_coeffs(i)) * cos(k * x) - imag(q_coeffs(i)) * sin(k * x);
+    i = i + 1;
+end
+
+
+% 4(h)
+% Approximation is now much closer than that from part (e)!
+figure;
+x = 0:pi/100:2*pi;
+y = x.^2;
+plot(x, y, x, q_1)
+
+xticks([0:2*pi/8:2*pi]);
+xticklabels({'0', '', '\pi/2', '', '\pi', '', '3\pi/2', '', '2\pi'});
+grid on;
+
+title("Modified Fourier approximation of f(x) = x^2 with n = 8");
+xlabel("x");
+ylabel("f(x)");
+legend("f(x) = x^2", "q_1(x)");
