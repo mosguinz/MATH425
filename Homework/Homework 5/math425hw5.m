@@ -51,3 +51,30 @@ est_price = @(year) (alpha + beta * year) * 1000;
 fprintf("Using y = %.5fx + %.5f\n", alpha, beta)
 fprintf("Estimated median price in %d: $%.f\n", 2005, est_price(2005))
 fprintf("Estimated median price in %d: $%.f\n", 2010, est_price(2010))
+
+%% Question 4
+
+f = @(x) x^2;
+n = 8;  % subdivide in eights i.e. c_0, ..., c_7
+
+% 4(a)
+% Note: f_hat is the sample vector
+f_hat = zeros(n, 1);
+for j = 0:n-1  % death to 1-based indexing!!!!
+    f_hat(j+1) = f(j * 2 * pi / 8);
+end
+f_hat
+
+% 4(b)
+% Note: omegas is the nxn matrix containing omega_k entries
+zeta_8 = exp(1i * 2 * pi / n);
+omegas = zeros(n, n);
+for k = 0:n-1
+    omega_k = zeros(n, 1);
+    for j = 0:n-1
+        omega_k(j+1) = zeta_8^(j*k);
+    end
+    omegas(k+1, :) = omega_k;
+    fprintf("omega_%d =\n\n", k)
+    disp(omega_k)
+end
