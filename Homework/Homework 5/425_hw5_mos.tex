@@ -128,4 +128,59 @@ $$
 
 Refer to section \code{\%\% Question 3} in the \code{math425hw5.m} file for the relevant code.
 
+From the table, we construct a system of equation $A\vect{x}=\vect{b}$, where
+$$
+\begin{cases}
+    \alpha_1 + 1989\beta_1 &= 86.4 \\
+    \alpha_2 + 1990\beta_2 &= 89.8 \\
+    \alpha_3 + 1991\beta_3 &= 92.8 \\
+    &\vdotswithin{=} \\
+    \alpha_{11} + 1999\beta_{11} &= 129.5 \\
+\end{cases}
+\iff
+\begin{array}[t]{cccc}
+\begin{pmatrix}
+    1 & 1989 \\
+    1 & 1990 \\
+    1 & 1991 \\
+    \vdots & \vdots\\
+    1 & 1999
+\end{pmatrix}
+&
+\begin{pmatrix}
+    \alpha \\ \beta
+\end{pmatrix}
+&
+=
+&
+\begin{pmatrix}
+    86.4 \\
+    89.8 \\
+    92.8 \\
+    \vdots \\
+    129.5
+\end{pmatrix}
+=\vect{b}.
+\\
+\overset{\veq}{A} & \overset{\veq}{\vect{x}}
+\end{array}
+$$
+
+Then, applying $A^\top$ to both sides and solving for $\vect{x}$ yields
+$$
+A^\top A\vect{x}=A^\top\vect{b} \implies
+\vect{x}^* = \verb|A' * A \ A' * b| \approx
+\begin{pmatrix}
+    -54024/7   \\  
+     863/220  \\
+\end{pmatrix},
+$$
+
+producing a line of best fit that estimates the median price (in thousand dollars)
+$$
+y \approx -\frac{54024}{7}x + \frac{863}{220} \approx -7717.70909x + 3.92273
+$$
+
+for the year $x$. Hence, for the years $x=2005$ and $x=2010$, the estimated median price are approximately \$147359 and \$166973, respectively.
+
 \end{document}
