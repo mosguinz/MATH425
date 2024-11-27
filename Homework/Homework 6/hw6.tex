@@ -1,0 +1,76 @@
+\documentclass[11pt]{amsart}
+
+\usepackage{amsthm, amssymb,amsmath}
+\usepackage{graphicx}
+
+\theoremstyle{definition}  % Heading is bold, text is roman
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+
+\newcommand{\ojo}[1]{{\sffamily\bfseries\boldmath[#1]}}
+
+\oddsidemargin 0pt
+\evensidemargin 0pt
+\marginparwidth 0pt
+\marginparsep 10pt
+\topmargin -10pt
+\headsep 10pt
+\textheight 8.4in
+\textwidth 7in
+
+%\input{../header}
+
+
+\begin{document}
+
+%\homework{}{Homework VI}
+
+
+\noindent For this homework, include all code and computations in a {\tt MATLAB} file named {\tt math425hw6.m}.
+You will need to submit this file along with a document containing your answers which do not
+involve {\tt MATLAB}. {\bf Do not submit a zipped (compressed) folder}. \\
+
+\noindent
+{\bf 1.a)} Suppose $\lambda$ is an eigenvalue of $A$. Show that $c\lambda +d$ is an eigenvalue of $B = cA+dI$ for scalars $c$ and $d$.  \\
+{\bf 1.b)} Prove that if $\lambda$ is an eigenvalue of $A$, then $\lambda^k$ is an eigenvalue of $A^k$ for any positive integer $k$. \\
+{\bf 1.c)} Show that $\lambda = 0$ is an eigenvalue of $A$ if and only if $A$ is singular. Conclude that the dimension of the subspace consisting of eigenvectors
+with eigenvalue $\lambda = 0$ is the dimension of the kernel of $A$.\\
+{\bf 1.d)} Use part {\bf c)} to compute all eigenvalues and eigenvectors of the $n \times n$ matrix $A$ where each entry of $A$ is equal to one. \\
+{\bf 1.e)} Let $A$ be a nonsingular matrix and let $\lambda$ be an eigenvalue of $A$. Prove that $\lambda^{-1}$ is an eigenvalue of $A^{-1}$. \\
+
+\noindent
+{\bf 2.a)}  Let $u \in \mathbb{R}^n$ be a unit vector (in the standard Euclidean inner product). Compute the eigenvectors and eigenvalues of $A = uu^T$. [Hint: what is the rank of $A$ ?] \\
+{\bf 2.b)} Compute the eigenvalues of the Householder matrix $H = I -2uu^T$. \\
+{\bf 2.c)} Compute the eigenvalues of a matrix $P$ such that $P^2 = P$ (such as a projection matrix). \\
+
+
+\noindent
+{\bf 3.}  Find the eigenvalues of the matrix $A = \begin{pmatrix} 0 & c & -b \\ -c & 0 & a \\ b & -a & 0 \end{pmatrix}$. Is $A$ diagonalizable ? Justify your answer. \\
+
+\noindent
+{\bf 4.} Construct a real matrix with eigenvalues $0, 2, -2$ and the corresponding eigenvectors
+$\begin{pmatrix} -1 \\ 1 \\ 0 \end{pmatrix}, \begin{pmatrix} 2 \\ -1 \\ 1 \end{pmatrix}, \begin{pmatrix} 0 \\ 1 \\ 3 \end{pmatrix}$. \\
+
+\noindent
+{\bf 5.} A real symmetrix $n \times n$ matrix $A$ is called positive semidefinite if for all $v \in \mathbb{R}^n$, $v^TAv \geq 0$. \\
+{\bf a)} Show that all diagonal entries of a positive semidefinite matrix are nonnegative [Hint: use $v = e_i$]. \\
+{\bf b)} Prove that if all eigenvalues of a symmetric matrix $A$ are nonnegative then $A$ is a positive semidefinite matrix [Hint: use the spectral decomposition of $A$]. \\
+{\bf c)} Conversely, prove that the eigenvalues of positive semidefinite matrix are nonnegative [Hint: to prove by contradiction assume the matrix has a negative eigenvalue with
+corresponding eigenvector $v$. Now compute $v^TAv$, and again use the spectral decomposition].\\
+
+
+\noindent
+{\bf 6.} Write a {\tt MATLAB} script that will compute the eigenvalues and the corresponding set of orthonormal eigenvectors of a symmetric matrix using the algorithm we learned in
+class based on the $QR$-factorization. Your algorithm should terminate when all off-diagonal entries of $A^{(k)}$ are smaller than $\varepsilon =10^{-6}$. 
+
+
+
+
+
+ 
+
+
+\end{document}
+
+
