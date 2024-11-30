@@ -121,7 +121,7 @@ $$
 
 As such, $\lambda=n$ is an eigenvalue of $A$.
 
-So, the eigenvalues of $A$ are $\lambda=0$ with the corresponding eigenvectors forming the subspace $\set{\vect{v} \mid A\vect{v}=\vect{0}}$ and $\lambda=n$ with the corresponding eigenvector $\begin{pmatrix}
+So, the eigenvalues of $A$ are $\lambda=0$ with the corresponding eigenvectors forming the subspace $\set{\vect{v}\in\R^n \mid A\vect{v}=\vect{0}}$ and $\lambda=n$ with the corresponding eigenvector $\begin{pmatrix}
     1 & 1 & \cdots & 1
 \end{pmatrix}^\top$.
 
@@ -146,6 +146,6 @@ From 1(c) and 1(d), we found that such a matrix (a rank-one, singular matrix) co
 
 To find the nonzero eigenvalue, take $\vect{v}=\vect{u}$. Then, $A\vect{v} = \lambda\vect{v} \implies \vect{u}\vect{u}^\top\vect{u} = \lambda\vect{u}$. Since $||\vect{u}||=1$ and $\vect{u}^\top\vect{u}=\langle\vect{u},\vect{u}\rangle=1$, we have that $\vect{u}=\lambda\vect{u}$. Thus, $\lambda=1$ is an eigenvalue of $A$ and the corresponding eigenvector is $\vect{u}$.
 
-As such, the eigenvalues of $A$ are $\lambda=0$ with the corresponding eigenvectors forming the subspace $\set{\vect{v} \mid A\vect{v}=\vect{u}\vect{u}^\top\vect{v}=\vect{0}}$ and $\lambda=1$ with the corresponding eigenvector $\vect{u}$.
+As such, the eigenvalues of $A$ are $\lambda=0$ with the corresponding eigenvectors forming the subspace $\set{\vect{v}\in\R^n\mid A\vect{v}=\vect{u}\vect{u}^\top\vect{v}=\vect{0}}$ and $\lambda=1$ with the corresponding eigenvector $\vect{u}$.
 
 \end{document}
