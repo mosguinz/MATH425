@@ -1,0 +1,139 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fancyhdr,latexsym,amssymb,amsmath,graphicx}
+\usepackage{algorithm}
+\usepackage{cancel}
+\usepackage[noend]{algpseudocode}
+\usepackage[pdftex]{hyperref}
+\pagestyle{fancy}
+\usepackage[parfill]{parskip} % Do not indent between empty lines
+\usepackage{mathtools}
+\usepackage{nicematrix}
+\usepackage{xfrac}
+\usepackage{bm}
+\usepackage{esvect}
+
+% For the \set notation
+\usepackage{xparse} 
+\DeclarePairedDelimiterX{\set}[1]{\{}{\}}{\setargs{#1}}
+\NewDocumentCommand{\setargs}{>{\SplitArgument{1}{;}}m}
+{\setargsaux#1}
+\NewDocumentCommand{\setargsaux}{mm}
+{\IfNoValueTF{#2}{#1} {#1\,\delimsize|\,\mathopen{}#2}}%{#1\:;\:#2}
+
+% Some common symbols
+\newcommand{\veq}{\mathrel{\rotatebox{90}{$=$}}}
+\newcommand{\vneq}{\mathrel{\rotatebox{90}{$\neq$}}}
+\newcommand{\vect}[1]{\vv{\mathbf{#1}}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\rank}{\operatorname{rank}}
+
+\lhead{MATH 425}
+\chead{Homework 6}
+\rhead{Sitthisarnwattanachai}
+
+\title{MATH 425 Homework 6}
+\author{mosguinz}
+\date{November 2024}
+
+\begin{document}
+
+\section*{Question 1}
+
+\subsection*{Part A}
+
+If $\lambda$ is an eigenvalue of $A$, then $A\vect{v}=\lambda\vect{v}$ for an eigenvector $\vect{v}\neq\vect{0}$. $c\lambda+d$ is an eigenvalue of $B=cA+dI$ if $B\vect{v}=(c\lambda+d)\vect{v}$.
+
+Since
+\begin{align*}
+    B\vect{v} &= (cA+dI)\vect{v} \\
+    &= cA\vect{v} + dI\vect{v} \\
+    &= c\lambda\vect{v} + d\vect{v} & \because A\vect{v}=\lambda\vect{v}\\
+    &= (c\lambda+d)\vect{v},
+\end{align*}
+$(c\lambda+d)\vect{v}$ is an eigenvalue of $B$.
+
+\subsection*{Part B}
+
+If $\lambda$ is an eigenvalue of $A$, then $A\vect{v}=\lambda\vect{v}$. For $A^k$, consider $k=2$:
+$$
+A^2\vect{v} = A(A\vect{v}) = A(\lambda\vect{v}) = \lambda(A\vect{v}) = \lambda(\lambda\vect{v}) = \lambda^2\vect{v}.
+$$
+
+Then, for any positive integer $k$, we have that:
+\begin{align*}
+    A^k\vect{v} = (\underbrace{A\cdot A \cdots A}_{\text{$k$ terms}})\vect{v}
+    &= (\underbrace{A\cdot A \cdots A}_{\text{$k-1$ terms}})(A\vect{v}) \\
+    &= (\underbrace{A\cdot A \cdots A}_{\text{$k-1$ terms}})(\lambda\vect{v}) \\
+    &= \lambda(\underbrace{A\cdot A \cdots A}_{\text{$k-2$ terms}})(A\vect{v}) \\
+    &= \lambda(\underbrace{A\cdot A \cdots A}_{\text{$k-2$ terms}})(\lambda\vect{v}) \\
+    &= \lambda^2(\underbrace{A\cdot A \cdots A}_{\text{$k-3$ terms}})(A\vect{v}) \\
+\end{align*}
+Hence, after each successive applications of $k$, we have that $A^k\vect{v}=\lambda^k\vect{v}$.
+
+\subsection*{Part C}
+
+If $\lambda$ is an eigenvalue of $A$, then $A\vect{v}=\lambda\vect{v}$. For $\lambda=0$, we have that $A\vect{v} = 0\vect{v}=\vect{0}$.
+
+If $A$ is singular, then $A$ has a nontrivial kernel i.e., $\ker(A)\neq\set{\vect{0}}$. As such, there exists a nonzero vector $\vect{v}\in\ker(A)$. This means that the subspace containing eigenvectors (hereinafter, \textit{eigenspace}) corresponding to the eigenvalue $\lambda=0$ is precisely $\ker(A)$ and thus have the same dimension.
+
+Conversely, $A$ must be singular for $\lambda=0$ to be its eigenvalue. If $A$ is nonsingular, then $A$ has a trivial kernel. This means that there exists no nonzero vector $\vect{v}$ such that $A\vect{v}=\vect{0}$.
+
+\subsection*{Part D}
+
+Let $A$ be an $n\times n$ matrix where each entry of $A$ is equal to one:
+$$
+A=\begin{pmatrix}
+    1 & 1 & \cdots & 1 \\
+    1 & 1 & \cdots & 1 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    1 & 1 & \cdots & 1
+\end{pmatrix}.
+$$
+
+Obviously, we first note that $\rank(A)=1$ and that $A$ has a nontrivial kernel. Thus $A$ is singular and by (c), we know that $\lambda=0$ is an eigenvalue of $A$.
+
+By the rank--nullity theorem, the nullity of $A$ is $n-\rank(A)=n-1$. From (c), we found that the dimension of eigenspace corresponding to the eigenvalue $\lambda=0$ is the nullity of $A$. As such $\lambda=0$ is an eigenvalue of $A$ with multiplicity $n-1$. This means there exists one other nonzero eigenvalue.
+
+Take $\vect{v} = \begin{pmatrix}
+    1 & 1 & \cdots & 1
+\end{pmatrix}^\top$, an $n\times1$ vector whose entries consists of ones. Since the sum of each rows of $A$ is $n$, we have that
+$$
+A\vect{v}
+= \begin{pmatrix}
+    1 & 1 & \cdots & 1 \\
+    1 & 1 & \cdots & 1 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    1 & 1 & \cdots & 1
+\end{pmatrix}
+\begin{pmatrix}
+    1 \\ 1 \\ \vdots \\ 1
+\end{pmatrix}
+= \begin{pmatrix}
+    n \\ n \\ \vdots \\ n
+\end{pmatrix}
+= n \begin{pmatrix}
+    1 \\ 1 \\ \vdots \\ 1
+\end{pmatrix}
+= n\vect{v}.
+$$
+
+As such, $\lambda=n$ is an eigenvalue of $A$.
+
+So, the eigenvalues of $A$ are $\lambda=0$ with the corresponding eigenvectors forming the subspace $\set{\vect{v} \mid A\vect{v}=\vect{0}}$ and $\lambda=n$ with the corresponding eigenvector $\begin{pmatrix}
+    1 & 1 & \cdots & 1
+\end{pmatrix}^\top$.
+
+\subsection*{Part E}
+
+If $\lambda$ is an eigenvalue of $A$, then $A\vect{v}=\lambda\vect{v}$. If $A$ is nonsingular, then applying $A^{-1}$ yields:
+\begin{align*}
+    A^{-1}A\vect{v} = A^{-1}\lambda\vect{v} \\
+    \vect{v} = A^{-1}\lambda\vect{v} \\
+    \frac{1}{\lambda}\vect{v} = A^{-1}\vect{v} \\
+\end{align*}
+
+Thus, $\lambda^{-1}$ is an eigenvalue of $A^{-1}$.
+
+\end{document}
