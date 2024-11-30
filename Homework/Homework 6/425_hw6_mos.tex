@@ -136,4 +136,16 @@ If $\lambda$ is an eigenvalue of $A$, then $A\vect{v}=\lambda\vect{v}$. If $A$ i
 
 Thus, $\lambda^{-1}$ is an eigenvalue of $A^{-1}$.
 
+\section*{Question 2}
+
+\subsection*{Part A}
+
+Let $\vect{u}\in\R^n$ be a unit vector and let $A=\vect{u}\vect{u}^\top$. Since we construct $A$ in such a way that the columns are spanned by $\vect{u}$, $A$ has a rank of one.
+
+From 1(c) and 1(d), we found that such a matrix (a rank-one, singular matrix) contains an eigenvalue of $\lambda=0$ with multiplicity $n-1$ and exactly one other nonzero eigenvalue.
+
+To find the nonzero eigenvalue, take $\vect{v}=\vect{u}$. Then, $A\vect{v} = \lambda\vect{v} \implies \vect{u}\vect{u}^\top\vect{u} = \lambda\vect{u}$. Since $||\vect{u}||=1$ and $\vect{u}^\top\vect{u}=\langle\vect{u},\vect{u}\rangle=1$, we have that $\vect{u}=\lambda\vect{u}$. Thus, $\lambda=1$ is an eigenvalue of $A$ and the corresponding eigenvector is $\vect{u}$.
+
+As such, the eigenvalues of $A$ are $\lambda=0$ with the corresponding eigenvectors forming the subspace $\set{\vect{v} \mid A\vect{v}=\vect{u}\vect{u}^\top\vect{v}=\vect{0}}$ and $\lambda=1$ with the corresponding eigenvector $\vect{u}$.
+
 \end{document}
