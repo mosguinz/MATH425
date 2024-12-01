@@ -150,7 +150,28 @@ As such, the eigenvalues of $A$ are $\lambda=0$ with the corresponding eigenvect
 
 \subsection*{Part B}
 
-what the fuck
+If $\lambda$ is an eigenvalue of $H$, then $H\vect{v}=\lambda\vect{v}$. If $H=I-2\vect{u}\vect{u}^\top$ is a Householder matrix where $I$ is the identity matrix and $\vect{u}$ are unit vector.
+
+First, consider the case where the vector lies in the span of the unit vector $\vect{u}$. Take $\vect{v}=\vect{u}$. Then,
+\begin{align*}
+    H\vect{u} &= \lambda\vect{u} \\
+    &= (I-2\vect{u}\vect{u}^\top)\vect{u} \\
+    &= \vect{u} - 2(\vect{u}\vect{u}^\top)\vect{u} \\
+    &= \vect{u} - 2\vect{u} \\
+    &= -\vect{u} &\therefore\lambda=-1.
+\end{align*}
+
+Thus, $\lambda=-1$ is an eigenvector of $H$.
+
+Then consider the case where the vector is orthogonal to $\vect{u}$. That is, any vector $\vect{v}$ such that $\langle\vect{v},\vect{u}\rangle = \vect{u}^\top\vect{v} = 0$. We have that:
+\begin{align*}
+    H\vect{v} &= (I-2\vect{u}\vect{u}^\top)\vect{v} \\
+    &= \vect{v} - 2(\vect{u}\vect{u}^\top)\vect{v} \\
+    &= \vect{v} - 0 \\
+    &= \lambda\vect{v} &\therefore\lambda=1.
+\end{align*}
+
+As such, the eigenvalues of $H=I-2\vect{u}\vect{u}^\top$ are $\lambda=-1$ and $\lambda=-1$.
 
 \subsection*{Part C}
 
