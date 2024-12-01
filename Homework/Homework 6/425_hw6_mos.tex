@@ -219,4 +219,44 @@ Then,
 
 And so, the eigenvalues are $\lambda=0$, $\lambda=-\sqrt{a^2 + b^2 + c^2}$, and $\lambda=\sqrt{a^2 + b^2 + c^2}$. Since we have three distinct eigenvalues, the three corresponding eigenvectors will be linearly independent and form a basis. Thus, $A$ is diagonalizable.
 
+\section*{Question 4}
+
+Let $S=\begin{pmatrix}
+    -1 & 2 & 0 \\
+    1 & -1 & 1 \\
+    0 & 1 & 3
+\end{pmatrix}$ and $\Lambda=\begin{pmatrix}
+    2 & 0 & 0 \\
+    0 & 2 & 0 \\
+    0 & 0 & -2 \\
+\end{pmatrix}$. Using the power of technology, we find $S^{-1} = \begin{pmatrix}
+    2 & 3 & -1 \\
+    \sfrac{3}{2} & \sfrac{3}{2} & -\sfrac{1}{2} \\
+    -\sfrac{1}{2} & -\sfrac{1}{2} & \sfrac{1}{2}
+\end{pmatrix}$.
+
+Then, $S\Lambda S^{-1}=\begin{pmatrix}
+    -1 & 2 & 0 \\
+    1 & -1 & 1 \\
+    0 & 1 & 3
+\end{pmatrix}
+\begin{pmatrix}
+    2 & 0 & 0 \\
+    0 & 2 & 0 \\
+    0 & 0 & -2 \\
+\end{pmatrix}
+\begin{pmatrix}
+    2 & 3 & -1 \\
+    \sfrac{3}{2} & \sfrac{3}{2} & -\sfrac{1}{2} \\
+    -\sfrac{1}{2} & -\sfrac{1}{2} & \sfrac{1}{2}
+\end{pmatrix}
+= \begin{pmatrix}
+     6 & 6  & -2 \\
+    -2 & -2 & 0 \\
+     6 & 6  & -4
+\end{pmatrix}$ is a matrix with eigenvalues $0$, $2$, and $-2$ with the corresponding eigenvectors $\begin{pmatrix} -1 \\ 1 \\ 0 \end{pmatrix}, \begin{pmatrix} 2 \\ -1 \\ 1 \end{pmatrix}, \begin{pmatrix} 0 \\ 1 \\ 3 \end{pmatrix}$.
+
+\section*{Question 5}
+
+
 \end{document}
