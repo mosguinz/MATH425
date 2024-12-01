@@ -186,4 +186,37 @@ If $\lambda$ is an eigenvalue of $P$, then $P\vect{v}=\lambda\vect{v}$. Since $P
 
 As such, the eigenvalues of $P$ are $\lambda=0$ and $\lambda=1$.
 
+\section*{Question 3}
+
+Let $A = \begin{pmatrix} 0 & c & -b \\ -c & 0 & a \\ b & -a & 0 \end{pmatrix}$.
+
+Then,
+\begin{align*}
+    \det(A-\lambda I) &= \det\begin{pmatrix} 
+        -\lambda & c & -b \\ 
+        -c & -\lambda & a \\ 
+        b & -a & -\lambda 
+    \end{pmatrix}
+    &= 0 \\
+    &= (-\lambda) \begin{vmatrix} 
+        -\lambda & a \\ 
+        -a & -\lambda 
+    \end{vmatrix}
+    - c \begin{vmatrix} 
+        -c & a \\ 
+        b & -\lambda 
+    \end{vmatrix}
+    - b \begin{vmatrix} 
+        -c & -\lambda \\ 
+        b & -a 
+    \end{vmatrix} &= 0\\
+    &= \text{careful calculations...} &= 0\\
+    &= (-\lambda)(\lambda^2 - a^2) - c(c\lambda - ab) - b(ac + \lambda b) &= 0\\
+    &= -\lambda^3 + \lambda a^2 - c^2\lambda + abc - b^2\lambda - abc &= 0 \\
+    &= -\lambda^3 - (c^2 + b^2)\lambda + a^2\lambda &= 0\\
+    &= -\lambda \left( \lambda^2 - (a^2 + b^2 + c^2) \right) &= 0.
+\end{align*}
+
+And so, the eigenvalues are $\lambda=0$, $\lambda=-\sqrt{a^2 + b^2 + c^2}$, and $\lambda=\sqrt{a^2 + b^2 + c^2}$. Since we have three distinct eigenvalues, the three corresponding eigenvectors will be linearly independent and form a basis. Thus, $A$ is diagonalizable.
+
 \end{document}
