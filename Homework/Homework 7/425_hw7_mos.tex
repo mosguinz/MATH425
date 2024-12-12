@@ -45,7 +45,7 @@
 
 Let $A$ be a nonsingular $n \times n$ matrix with real entries and $\vect{b} \in \mathbb{R}^n$.
 
-Given a real-valued, nonsingular $n\times n$ matrix and their singular value decomposition (SVD) $A=P\Sigma Q^\top$, the system $A\vect{x}=\vect{b}$ can be written as:
+Let $A=P\Sigma Q^\top$ be the singular value decomposition (SVD) of $A$. Then, the system $A\vect{x}=\vect{b}$ can be written as:
 
 $$
 \begin{array}{ccl}
@@ -66,10 +66,28 @@ Note that since $A$ is a real nonsingular matrix, the matrices $P=
     \Vdots & & \Vdots \\
     \vect{q}_1 & \cdots & \vect{q}_n \\
     \Vdots & & \Vdots
-\end{pNiceMatrix}$ are orthogonal. Thus, $Q^\top Q= QQ^\top = I \iff Q^\top = Q^{-1}$ and $P^\top P= PP^\top = I \iff P^\top = P^{-1}$. As such, the system can be represented as
-$$
-\vect{x} = Q\Sigma^{-1}P^\top\vect{b}.
-$$
+\end{pNiceMatrix}$ are orthogonal. Thus, $Q^\top Q= QQ^\top = I \iff Q^\top = Q^{-1}$ and $P^\top P= PP^\top = I \iff P^\top = P^{-1}$. As such, the solution can be written as:
+\begin{align*}
+    \vect{x} &= Q\Sigma^{-1}P^\top\vect{b} \\
+    &= \begin{pNiceMatrix}[nullify-dots,margin]
+        \Vdots & & \Vdots \\
+        \vect{q}_1 & \cdots & \vect{q}_n \\
+        \Vdots & & \Vdots
+    \end{pNiceMatrix}
+    \begin{pmatrix}
+        \sigma_1  & & 0 \\
+        & \ddots & \\
+        0 & & \sigma_n
+    \end{pmatrix}^{-1}
+    \begin{pNiceMatrix}[nullify-dots,margin]
+        \Cdots & \vect{p}_1^\top & \Cdots \\
+        & \vdots & \\
+        \Cdots & \vect{p}_n^\top & \Cdots \\
+    \end{pNiceMatrix}
+    \begin{pmatrix}
+        b_1 \\ \vdots \\ b_n
+    \end{pmatrix}
+\end{align*}
 
 Here, we're basically solving for $\vect{x}$ by computing the inverse of $A$ with its SVD. Thus, it is crucial that $A$ is nonsigular. Otherwise, $A$ would be invertible. Additionally, note that the solution requires us to compute the inverse of $\Sigma$, which we note $\displaystyle \Sigma^{-1} = \operatorname{diag}(\sfrac{1}{\sigma_1},\ldots,\sfrac{1}{\sigma_n})$. This means that all singular values of $A$, $\sigma_1,\ldots,\sigma_n$ must be all positive. If $A$ is singular, then its determinant is zero, which means zero is a singular value of $A$, and thus $\Sigma$ would also be invertible.
 
