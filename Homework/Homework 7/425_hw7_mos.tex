@@ -1,0 +1,84 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fancyhdr,latexsym,amssymb,amsmath,graphicx}
+\usepackage{algorithm}
+\usepackage{cancel}
+\usepackage[noend]{algpseudocode}
+\usepackage[pdftex]{hyperref}
+\pagestyle{fancy}
+\usepackage[parfill]{parskip} % Do not indent between empty lines
+\usepackage{mathtools}
+\usepackage{nicematrix}
+\usepackage{xfrac}
+\usepackage{bm}
+\usepackage{esvect}
+\usepackage{tikz}
+\usepackage{float}
+
+% For the \set notation
+\usepackage{xparse} 
+\DeclarePairedDelimiterX{\set}[1]{\{}{\}}{\setargs{#1}}
+\NewDocumentCommand{\setargs}{>{\SplitArgument{1}{;}}m}
+{\setargsaux#1}
+\NewDocumentCommand{\setargsaux}{mm}
+{\IfNoValueTF{#2}{#1} {#1\,\delimsize|\,\mathopen{}#2}}%{#1\:;\:#2}
+
+% Some common symbols
+\newcommand{\veq}{\mathrel{\rotatebox{90}{$=$}}}
+\newcommand{\vneq}{\mathrel{\rotatebox{90}{$\neq$}}}
+\newcommand{\vect}[1]{\vv{\mathbf{#1}}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\rank}{\operatorname{rank}}
+
+\lhead{MATH 425}
+\chead{Homework 7}
+\rhead{Sitthisarnwattanachai}
+
+\title{MATH 425 Homework 7}
+\author{mosguinz}
+\date{December 2024}
+
+\begin{document}
+
+\section*{Question 1}
+
+Let $A$ be a nonsingular $n \times n$ matrix with real entries and $\vect{b} \in \mathbb{R}^n$.
+
+Given a real-valued, nonsingular $n\times n$ matrix and their singular value decomposition (SVD) $A=P\Sigma Q^\top$, the system $A\vect{x}=\vect{b}$ can be written as:
+
+$$
+\begin{array}{ccl}
+    A\vect{x}=\vect{b} & \iff & (P\Sigma Q^\top) \vect{x} = \vect{b} \\
+    & \iff & \vect{x} = (P\Sigma Q^\top)^{-1} \vect{b} \\
+    && \vect{x} = (Q^\top)^{-1}\Sigma^{-1}P^{-1}\vect{b}
+\end{array}
+$$
+
+\NiceMatrixOptions{xdots/line-style=solid}
+Note that since $A$ is a real nonsingular matrix, the matrices $P=
+\begin{pNiceMatrix}[nullify-dots,margin]
+    \Vdots & & \Vdots \\
+    \vect{p}_1 & \cdots & \vect{p}_n \\
+    \Vdots & & \Vdots
+\end{pNiceMatrix}$ and $Q=
+\begin{pNiceMatrix}[nullify-dots,margin]
+    \Vdots & & \Vdots \\
+    \vect{q}_1 & \cdots & \vect{q}_n \\
+    \Vdots & & \Vdots
+\end{pNiceMatrix}$ are orthogonal. Thus, $Q^\top Q= QQ^\top = I \iff Q^\top = Q^{-1}$ and $P^\top P= PP^\top = I \iff P^\top = P^{-1}$. As such, the system can be represented as
+$$
+\vect{x} = Q\Sigma^{-1}P^\top\vect{b}.
+$$
+
+Here, we're basically solving for $\vect{x}$ by computing the inverse of $A$ with its SVD. Thus, it is crucial that $A$ is nonsigular. Otherwise, $A$ would be invertible. Additionally, note that the solution requires us to compute the inverse of $\Sigma$, which we note $\displaystyle \Sigma^{-1} = \operatorname{diag}(\sfrac{1}{\sigma_1},\ldots,\sfrac{1}{\sigma_n})$. This means that all singular values of $A$, $\sigma_1,\ldots,\sigma_n$ must be all positive. If $A$ is singular, then its determinant is zero, which means zero is a singular value of $A$, and thus $\Sigma$ would also be invertible.
+
+\section*{Question 2}
+
+From Question 1, we solved the system $A\vect{x}=\vect{b}$ by substituting the SVD of $A$ and computing its inverse. Where $A=P\Sigma Q^\top$ is the SVD of $A$, the resulting expression is $\vect{x} = Q\Sigma^{-1}P^\top\vect{b}$. Thus, $A^{-1}=Q\Sigma^{-1}P^\top$ and as demonstrated in the previous question, the singular value of $A^{-1}$ is simply the reciprocal of the singular values of $A$.
+
+\section*{Question 5}
+
+Refer to Section \code{\%\% Question 5} in the \code{math425hw7.m} file for the relevant code.
+
+\end{document}
