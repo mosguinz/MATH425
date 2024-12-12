@@ -9,7 +9,7 @@ eig(A)
 
 %% Question 6
 function [V, L] = findEigenvalues(A)
-    epsilon = 1e-6;  % The desired accuracy.
+    epsilon = 1e-6;  % The desired accuracy.x
     k = 0;  % Just to see how many iterations is needed, per activity.
     L = A;
     Q_k = eye(size(A));
@@ -34,6 +34,6 @@ A = [3 1 2; 1 3 1; 2 1 3];
 [Q, L] = eig(A);
 disp(Q);
 disp(L);
-[V, L] = findEigenvalues(A);
+[Q, L] = findEigenvalues(A);
 disp(Q);
 disp(L);
