@@ -30,6 +30,7 @@
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\rank}{\operatorname{rank}}
+\newcommand{\trace}{\operatorname{trace}}
 
 \lhead{MATH 425}
 \chead{Homework 7}
@@ -94,6 +95,61 @@ Here, we're basically solving for $\vect{x}$ by computing the inverse of $A$ wit
 \section*{Question 2}
 
 From Question 1, we solved the system $A\vect{x}=\vect{b}$ by substituting the SVD of $A$ and computing its inverse. Where $A=P\Sigma Q^\top$ is the SVD of $A$, the resulting expression is $\vect{x} = Q\Sigma^{-1}P^\top\vect{b}$. Thus, $A^{-1}=Q\Sigma^{-1}P^\top$ and as demonstrated in the previous question, the singular value of $A^{-1}$ is simply the reciprocal of the singular values of $A$.
+
+\section*{Question 3}
+
+Let $A$ be a real-valued $m\times n$ matrix and let $||A||=\sqrt{\sum_{j=1}^n \sum_{i=1}^m a_{ij}^2}$.
+
+\subsection*{Part A}
+
+Let $B$ be a $p \times r$ matrix and $C$ be a $r \times p$ matrix. Then, $BC$ is a $p\times p$ matrix and $CB$ is an $r\times r$ matrix.
+
+The trace of an $n\times n$ square matrix $M$ is the sum of the entries on the main diagonal, that is $\displaystyle\trace(M) = \sum_{i=1}^n m_{ii}$. As such, $\displaystyle\trace(BC) = \sum_{i=1}^p \sum_{j=1}^r b_{ij} c_{ij}$ and $\displaystyle\trace(CB) = \sum_{i=1}^r \sum_{i=1}^p c_{ij} b_{ij}$. By commutativity, we can clearly see that $\trace(BC)=\trace(CB)$.
+
+\subsection*{Part B}
+
+Similar to 3(a), we note that $AA^\top$ is an $m\times m$ matrix and $A^\top A$ is an $n\times n$ matrix. As such, $\displaystyle\trace(AA^\top) = \sum_{i=1}^m \sum_{j=1}^n a_{ij} a_{ij} = \sum_{i=1}^m \sum_{j=1}^n a_{ij}^2$ and $\displaystyle\trace(A^\top A) = \sum_{i=1}^n \sum_{j=1}^m a_{ij} a_{ij} = \sum_{i=1}^n \sum_{j=1}^m a_{ij}^2$. Again by commutativity, we see that $\trace(AA^\top)=\trace(A^\top A) = ||A||^2$.
+
+\subsection*{Part C}
+
+Let $U$ be an $m\times m$ orthogonal matrix. Then, $U^\top U = I_m$. From 3(b), we note that $||A||^2=\trace(A^\top A)=\trace(A A^\top)$. Then,
+\begin{align*}
+    ||UA||^2 &= \trace( (UA)^\top (UA) ) \\
+    &= \trace(A^\top U^\top U A) \\
+    &= \trace(A^\top A) \\
+    &= ||A||^2.
+\end{align*}
+
+As such, it follows that $||UA||=||A||$.
+
+\subsection*{Part D}
+
+Let $A=P\Sigma Q^\top$ be the singular value decomposition SVD of $A$, where $P=
+\begin{pNiceMatrix}[nullify-dots,margin]
+    \Vdots & & \Vdots \\
+    \vect{p}_1 & \cdots & \vect{p}_n \\
+    \Vdots & & \Vdots
+\end{pNiceMatrix}$ and $Q=
+\begin{pNiceMatrix}[nullify-dots,margin]
+    \Vdots & & \Vdots \\
+    \vect{q}_1 & \cdots & \vect{q}_n \\
+    \Vdots & & \Vdots
+\end{pNiceMatrix}$ are orthogonal matrices. And $\Sigma = \begin{pmatrix}
+    \sigma_1  & & 0 \\
+    & \ddots & \\
+    0 & & \sigma_n
+\end{pmatrix}$ is the diagonal matrix where $\sigma_1 \ge \sigma_2 \ge \ldots \ge \sigma_n > 0$ are the signgular values of $A$. Then,
+\begin{align*}
+    ||A||^2 &= \trace(A^\top A) \\
+    &= \trace( (P\Sigma Q^\top)^\top (P\Sigma Q^\top)) \\
+    &= \trace( Q^\top)^\top \Sigma^\top P^\top P \Sigma Q^\top \\
+    &= \trace( Q \Sigma^\top \Sigma Q^\top ) \\
+    &= \trace( Q\Sigma^2 Q^\top ) &\because \Sigma^\top = \Sigma \\
+    &= \trace( \Sigma^2 ) &\because Q Q^\top = I \\
+    &= \sigma_1^2 + \sigma_2^2 + \cdots + \sigma_n^2.
+\end{align*}
+
+As such, it follows that $||A|| = \sqrt{\sigma_1^2 + \sigma_2^2 + \cdots + \sigma_n^2}$.
 
 \section*{Question 5}
 
