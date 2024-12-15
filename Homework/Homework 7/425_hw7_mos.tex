@@ -127,7 +127,7 @@ As such, it follows that $||UA||=||A||$.
 Let $A=P\Sigma Q^\top$ be the singular value decomposition SVD of $A$, where $P=
 \begin{pNiceMatrix}[nullify-dots,margin]
     \Vdots & & \Vdots \\
-    \vect{p}_1 & \cdots & \vect{p}_n \\
+    \vect{p}_1 & \cdots & \vect{p}_m \\
     \Vdots & & \Vdots
 \end{pNiceMatrix}$ and $Q=
 \begin{pNiceMatrix}[nullify-dots,margin]
@@ -137,19 +137,19 @@ Let $A=P\Sigma Q^\top$ be the singular value decomposition SVD of $A$, where $P=
 \end{pNiceMatrix}$ are orthogonal matrices. And $\Sigma = \begin{pmatrix}
     \sigma_1  & & 0 \\
     & \ddots & \\
-    0 & & \sigma_n
-\end{pmatrix}$ is the diagonal matrix where $\sigma_1 \ge \sigma_2 \ge \ldots \ge \sigma_n > 0$ are the signgular values of $A$. Then,
+    0 & & \sigma_r
+\end{pmatrix}$ is the diagonal matrix where $\sigma_1 \ge \sigma_2 \ge \ldots \ge \sigma_r > 0$ are the signgular values of $A$. Then,
 \begin{align*}
     ||A||^2 &= \trace(A^\top A) \\
     &= \trace( (P\Sigma Q^\top)^\top (P\Sigma Q^\top)) \\
-    &= \trace( Q^\top)^\top \Sigma^\top P^\top P \Sigma Q^\top \\
+    &= \trace( (Q^\top)^\top \Sigma^\top P^\top P \Sigma Q^\top) \\
     &= \trace( Q \Sigma^\top \Sigma Q^\top ) \\
     &= \trace( Q\Sigma^2 Q^\top ) &\because \Sigma^\top = \Sigma \\
     &= \trace( \Sigma^2 ) &\because Q Q^\top = I \\
-    &= \sigma_1^2 + \sigma_2^2 + \cdots + \sigma_n^2.
+    &= \sigma_1^2 + \sigma_2^2 + \cdots + \sigma_r^2.
 \end{align*}
 
-As such, it follows that $||A|| = \sqrt{\sigma_1^2 + \sigma_2^2 + \cdots + \sigma_n^2}$.
+As such, it follows that $||A|| = \sqrt{\sigma_1^2 + \sigma_2^2 + \cdots + \sigma_r^2}$.
 
 \section*{Question 5}
 
