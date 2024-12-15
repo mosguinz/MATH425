@@ -151,6 +151,45 @@ Let $A=P\Sigma Q^\top$ be the singular value decomposition SVD of $A$, where $P=
 
 As such, it follows that $||A|| = \sqrt{\sigma_1^2 + \sigma_2^2 + \cdots + \sigma_r^2}$.
 
+\section*{Question 4}
+
+\subsection*{Part A}
+
+Let $A$ be an $m \times n$ real-valued matrix with rank $r$ and let $A = P\Sigma Q^\top$ be its singular value decomposition. Again, let $P =
+\begin{pNiceMatrix}[nullify-dots,margin]
+    \Vdots & & \Vdots \\
+    \vect{p}_1 & \cdots & \vect{p}_r \\
+    \Vdots & & \Vdots
+\end{pNiceMatrix}$, $\Sigma = \begin{pmatrix}
+    \sigma_1  & & 0 \\
+    & \ddots & \\
+    0 & & \sigma_r
+\end{pmatrix}$, and
+$Q^\top =
+\begin{pNiceMatrix}[nullify-dots,margin]
+    \Cdots & \vect{q}_1^\top & \Cdots \\
+    & \vdots & \\
+    \Cdots & \vect{q}_r^\top & \Cdots \\
+\end{pNiceMatrix}$. As demonstrated in class, the SVD of $A$ can be decomposed into the following:
+\begin{align*}
+    A &= P\Sigma Q^\top \\
+    &= \sigma_1\vect{p}_1\vect{q}_1^\top + \sigma_2\vect{p}_2\vect{q}_2^\top  + \cdots + \sigma_r\vect{p}_r\vect{q}_r^\top,
+\end{align*}
+
+where each term is an $m\times n$ matrix of rank 1 and $\rank(A)$ is the minimum number of rank-1 matrices $A_1, A_2, \ldots, A_r$ such that $A = A_1 + A_2 + \cdots + A_r$.
+
+\subsection*{Part B}
+
+Let $A_k = P_k\Sigma_k Q^\top_k = \sigma_1\vect{p}_1\vect{q}_1^\top + \sigma_2\vect{p}_2\vect{q}_2^\top  + \cdots + \sigma_r\vect{p}_r\vect{q}_k^\top$. Then,
+$$
+A-A_k = \sigma_{k+1}\vect{p}_{k+1}\vect{q}_{k+1}^\top + \sigma_{k+2}\vect{p}_{k+2}\vect{q}_{k+2}^\top  + \cdots + \sigma_r\vect{p}_r\vect{q}_r^\top.
+$$
+
+As such, the $\Sigma_k = \operatorname{diag}(\sigma_{k+1}, \sigma_{k+2}, \ldots, \sigma_r)$. Thus, from 3(d) we have that
+$$
+||A_k|| = \sqrt{\trace(\Sigma_k^2)} = \sqrt{\sigma_{k+1}^2 + \sigma_{k+2}^2 + \ldots + \sigma_r^2}.
+$$
+
 \section*{Question 5}
 
 Refer to Section \code{\%\% Question 5} in the \code{math425hw7.m} file for the relevant code.
