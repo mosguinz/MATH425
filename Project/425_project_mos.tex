@@ -81,7 +81,7 @@ $$
 
 This homogeneous representation serves as the foundation for deriving the complete camera matrix, which incorporates additional parameters to account for intrinsic and extrinsic camera properties.
 
-\subsection{Principal Point Offset}
+\subsection{Intrinsic Matrix}
 
 In real-world cameras, the optical center does not necessarily coincide with the center of the image plane. Instead, the projection may be offset by a certain amount. This offset is characterized by the principal point, denoted by $p_x$ and $p_y$ for the horizontal and vertical displacements, respectively.
 
@@ -103,7 +103,7 @@ $$
 
 Here, the $3 \times 3$ submatrix
 $$
-K = \begin{pmatrix}
+\mathbf{K} = \begin{pmatrix}
 f & 0 & p_x \\
 0 & f & p_y \\
 0 & 0 & 1
@@ -113,14 +113,50 @@ is known as the \textit{camera calibration matrix}, which encapsulates the \text
 
 The entire matrix is referred to as the \textit{intrinsic matrix}. Now, our 2D coordinate  $\mathbf{x}$ can be expressed as
 $$
-\mathbf{x} = K\begin{bmatrix}
+\mathbf{x} = \mathbf{K}\begin{bmatrix}
     I & | & \vect{0}
 \end{bmatrix}\mathbf{x}_\text{cam}
 $$
 where $\mathbf{x}_\text{cam}=\begin{pmatrix}
     x & y & z & 1
-\end{pmatrix}^\top$, our camera at the origin of a Euclidean coordinate system.
+\end{pmatrix}^\top$ is our camera at the origin of a Euclidean coordinate system.
 
+\subsection{The Extrinsic Matrix}
 
+In addition to the intrinsic properties of a camera, we must account for its position and orientation in the world. These are described by the \textit{extrinsic parameters}, which define the relationship between the \textit{camera coordinate frame} (CCF) and the \textit{world coordinate frame} (WCF). 
+
+The transformation between the WCF and the CCF involves two components:
+\begin{itemize}
+    \item A $3 \times 3$ rotation matrix $\mathbf{R}$, which describes the orientation of the camera with respect to the WCF. Note that this matrix is orthogonal.
+    \item A $3 \times 1$ translation vector $\mathbf{t}$, which specifies the position of the camera's optical center in the WCF.
+\end{itemize}
+
+The matrix $\mathbf{R}$ has three rows, each representing a basis vector of the camera coordinate frame expressed in the world coordinate frame:
+\begin{itemize}
+    \item The first row of $\mathbf{R}$ represents the direction of the camera's $x$-axis in the WCF.
+    \item The second row of $\mathbf{R}$ represents the direction of the camera's $y$-axis in the WCF.
+    \item The third row of $\mathbf{R}$ represents the direction of the camera's optical axis (or $z$-axis) in the WCF.
+\end{itemize}
+
+We again express the system in terms of a homogeneous coordinate to transform a point $\mathbf{X}_{\text{w}}$ in the WCF to the CCF, we apply the rotation and translation as follows:
+$$
+\mathbf{x}_\text{cam} = 
+\mathbf{R} \mathbf{X}_{\text{w}} + \mathbf{t} =
+\begin{pmatrix} 
+\mathbf{R} & \mathbf{t} \\
+0 & 1
+\end{pmatrix}
+\begin{pmatrix} x_{\text{w}} \\ y_{\text{w}} \\ z_{\text{w}} \\ 1 \end{pmatrix}.
+$$
+
+Here, the $4\times 4$ matrix $
+\begin{pmatrix} 
+\mathbf{R} & \mathbf{t} \\
+0 & 1
+\end{pmatrix}
+$
+is known as the \textit{extrinsic matrix}, combining rotation and translation into a single transformation.
+
+\section{The Camera Matrix}
 
 \end{document}
