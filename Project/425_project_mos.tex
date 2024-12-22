@@ -1,0 +1,126 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fancyhdr,latexsym,amssymb,amsmath,graphicx}
+\usepackage{algorithm}
+\usepackage{cancel}
+\usepackage[noend]{algpseudocode}
+\usepackage[pdftex]{hyperref}
+\pagestyle{fancy}
+\usepackage[parfill]{parskip} % Do not indent between empty lines
+\usepackage{mathtools}
+\usepackage{nicematrix}
+\usepackage{xfrac}
+\usepackage{bm}
+\usepackage{esvect}
+
+% For the \set notation
+\usepackage{xparse} 
+\DeclarePairedDelimiterX{\set}[1]{\{}{\}}{\setargs{#1}}
+\NewDocumentCommand{\setargs}{>{\SplitArgument{1}{;}}m}
+{\setargsaux#1}
+\NewDocumentCommand{\setargsaux}{mm}
+{\IfNoValueTF{#2}{#1} {#1\,\delimsize|\,\mathopen{}#2}}%{#1\:;\:#2}
+
+% Some common symbols
+\newcommand{\veq}{\mathrel{\rotatebox{90}{$=$}}}
+\newcommand{\vneq}{\mathrel{\rotatebox{90}{$\neq$}}}
+\newcommand{\vect}[1]{\vv{\mathbf{#1}}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\rank}{\operatorname{rank}}
+
+% \lhead{MATH 425}
+\lhead{Computation of the Camera Matrix}
+\rhead{Sitthisarnwattanachai}
+
+\title{Computation of the Camera Matrix}
+\author{mosguinz}
+\date{December 2024}
+
+\begin{document}
+
+\section{Introduction}
+
+In computer vision, the camera matrix is a $3 \times 4$ matrix that encapsulates the mapping performed by a pinhole camera, projecting 3D points in the real world onto 2D points in an image. This mini-project focuses on understanding and implementing the simplest camera model, the basic pinhole camera.
+
+We will begin by describing the projection of points in 3D space onto a 2D plane using a series of matrices that we will define. The majority of this report is based on the explanations provided in \textit{Multiple View Geometry in Computer Vision} by Richard Hartley and Andrew Zisserman. Finally, we will discuss the implementation of a specific algorithm in MATLAB to compute the camera matrix.
+
+\subsection{TODO: Notational note}
+
+To remain consistent with the textbook by Hartley and Zisserman, we will keep our notations largely similar. To emphasize a couple of matrices, I am going to 
+
+\section{The Pinhole Camera Model}
+
+The pinhole camera model is a simplified representation of how a camera projects three-dimensional (3D) points in space onto a two-dimensional (2D) image plane. Under this model, we aim to map a 3D point, denoted by 
+$\mathbf{X} = \begin{pmatrix} x & y & z \end{pmatrix}^\top$, 
+to its corresponding point on the image plane. This point is the intersection of the line passing through $\mathbf{X}$ and the center of projection (the camera's optical center) with the image plane.
+
+The geometry of the setup defines the center of projection at the origin of the camera coordinate system, with the image plane located at a fixed distance $f$ (the focal length) from the origin. The projection follows the principle of similar triangles.
+
+[[TODO: INSERT DIAGRAM HERE]]
+
+The equations governing this projection are given by:
+$$
+u = \frac{f x}{z}, \quad v = \frac{f y}{z}.
+$$
+
+Now, note that these perspective projections are nonlinear due to the division by $z$. To simplify our operations, we want to transform our system using a linear model. In our case, we can accomplish this by using homogeneous coordinates.
+
+\subsection{Linearizing and using homogenous coordinates}
+
+In the homogeneous form, the coordinates of our point $\mathbf{X}$ are expressed as $\begin{pmatrix} x & y & z & 1 \end{pmatrix}^\top$, and the corresponding point on the image plane becomes $\begin{pmatrix} u & v & z \end{pmatrix}^\top$. Then, we can write our projection in matrix form as:
+$$
+\begin{pmatrix} u \\ v \\ z \end{pmatrix} = 
+\begin{pmatrix}
+f & 0 & 0 & 0 \\
+0 & f & 0 & 0 \\
+0 & 0 & 1 & 0
+\end{pmatrix}
+\begin{pmatrix} x \\ y \\ z \\ 1 \end{pmatrix}.
+$$
+
+This homogeneous representation serves as the foundation for deriving the complete camera matrix, which incorporates additional parameters to account for intrinsic and extrinsic camera properties.
+
+\subsection{Principal Point Offset}
+
+In real-world cameras, the optical center does not necessarily coincide with the center of the image plane. Instead, the projection may be offset by a certain amount. This offset is characterized by the principal point, denoted by $p_x$ and $p_y$ for the horizontal and vertical displacements, respectively.
+
+Thus, the projection equations are modified to account for this offset:
+$$
+u = \frac{f x}{z} + p_x, \quad v = \frac{f y}{z} + p_y.
+$$
+
+In the homogeneous representation, this is expressed as:
+$$
+\begin{pmatrix} u \\ v \\ z \end{pmatrix} = 
+\begin{pmatrix}
+f & 0 & p_x & 0 \\
+0 & f & p_y & 0 \\
+0 & 0 & 1 & 0
+\end{pmatrix}
+\begin{pmatrix} x \\ y \\ z \\ 1 \end{pmatrix}.
+$$
+
+Here, the $3 \times 3$ submatrix
+$$
+K = \begin{pmatrix}
+f & 0 & p_x \\
+0 & f & p_y \\
+0 & 0 & 1
+\end{pmatrix}
+$$
+is known as the \textit{camera calibration matrix}, which encapsulates the \textit{intrinsic parameters} of the camera, such as the focal length $f$ and the principal point offsets, $p_x$ and $p_y$.
+
+The entire matrix is referred to as the \textit{intrinsic matrix}. Now, our 2D coordinate  $\mathbf{x}$ can be expressed as
+$$
+\mathbf{x} = K\begin{bmatrix}
+    I & | & \vect{0}
+\end{bmatrix}\mathbf{x}_\text{cam}
+$$
+where $\mathbf{x}_\text{cam}=\begin{pmatrix}
+    x & y & z & 1
+\end{pmatrix}^\top$, our camera at the origin of a Euclidean coordinate system.
+
+
+
+\end{document}
