@@ -41,7 +41,7 @@
 
 \section{Introduction}
 
-In computer vision, the camera matrix is a $3 \times 4$ matrix that encapsulates the mapping performed by a pinhole camera, projecting 3D points in the real world onto 2D points in an image. This mini-project focuses on understanding and implementing the simplest camera model, the basic pinhole camera.
+In computer vision, the camera matrix is a $3 \times 4$ matrix that encapsulates the mapping performed by a pinhole camera, projecting 3D points in the real world onto 2D points in an image. This ``mini"-project focuses on understanding and implementing the simplest camera model, the basic pinhole camera.
 
 We will begin by describing the projection of points in 3D space onto a 2D plane using a series of matrices that we will define. The majority of this report is based on the explanations provided in \textit{Multiple View Geometry in Computer Vision} by Richard Hartley and Andrew Zisserman. Finally, we will discuss the implementation of a specific algorithm in MATLAB to compute the camera matrix.
 
@@ -72,9 +72,9 @@ In the homogeneous form, the coordinates of our point $\mathbf{X}$ are expressed
 $$
 \begin{pmatrix} u \\ v \\ z \end{pmatrix} = 
 \begin{pmatrix}
-f & 0 & 0 & 0 \\
-0 & f & 0 & 0 \\
-0 & 0 & 1 & 0
+    f & 0 & 0 & 0 \\
+    0 & f & 0 & 0 \\
+    0 & 0 & 1 & 0
 \end{pmatrix}
 \begin{pmatrix} x \\ y \\ z \\ 1 \end{pmatrix}.
 $$
@@ -121,7 +121,7 @@ where $\mathbf{x}_\text{cam}=\begin{pmatrix}
     x & y & z & 1
 \end{pmatrix}^\top$ is our camera at the origin of a Euclidean coordinate system.
 
-\subsection{The Extrinsic Matrix}
+\subsection{Extrinsic Matrix}
 
 In addition to the intrinsic properties of a camera, we must account for its position and orientation in the world. These are described by the \textit{extrinsic parameters}, which define the relationship between the \textit{camera coordinate frame} (CCF) and the \textit{world coordinate frame} (WCF). 
 
@@ -158,5 +158,59 @@ $
 is known as the \textit{extrinsic matrix}, combining rotation and translation into a single transformation.
 
 \section{The Camera Matrix}
+
+The camera matrix combines the intrinsic and extrinsic transformations to map a 3D point in the world coordinate frame directly onto the 2D image plane.
+
+The intrinsic matrix $\mathbf{K}$ maps a point from the camera coordinate system to the 2D image plane. The extrinsic matrix $\begin{bmatrix} \mathbf{R} & | & \mathbf{t} \end{bmatrix}$ transforms a point from the world coordinate frame to the camera coordinate frame, where the rotation matrix $\mathbf{R}$ encodes the orientation of the camera and the translation vector $\mathbf{t}$ specifies its position.
+
+Together, the intrinsic and extrinsic matrices form our $3\times 4$ camera matrix, $\mathbf{P}$:
+\begin{align*}
+    \mathbf{P} &= \mathbf{K} \begin{bmatrix} \mathbf{R} & | & \mathbf{t} \end{bmatrix} \\
+    &= \begin{pmatrix}
+        f & 0 & 0 & 0 \\
+        0 & f & 0 & 0 \\
+        0 & 0 & 1 & 0
+    \end{pmatrix}
+    \begin{pmatrix}
+        r_{11} & r_{12} & r_{13} & t_x \\
+        r_{21} & r_{22} & r_{23} & t_y \\
+        r_{31} & r_{32} & r_{33} & t_z \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}.
+\end{align*}
+
+The transformation can now be expressed compactly as:
+$$
+\mathbf{x}_{\text{image}} = \mathbf{P} \mathbf{X}_{\text{w}},
+$$
+where $\mathbf{X}_{\text{w}}$ is a 3D point in homogeneous world coordinates, and $\mathbf{x}_{\text{image}}$ is its corresponding 2D point in homogeneous image coordinates.
+
+Now that we have a complete overview of what the camera matrix \( \mathbf{P} \) is composed of, we can compute an initial estimate for \( \mathbf{P} \) using the Gold Standard algorithm outlined in the textbook (Hartley and Zisserman 181).
+
+\subsection{Steps of the Gold Standard Algorithm}
+
+\paragraph{(1) Normalization}
+We first normalize both the image points and the 3D space points:
+\begin{itemize}
+    \item Apply a similarity transformation \( \mathbf{T} \) to normalize the image points. This involves translating and scaling the points so that their centroid is at the origin and their average distance from the origin is \(\sqrt{2}\).
+    \item Similarly, apply a similarity transformation \( \mathbf{U} \) to normalize the 3D space points so that their centroid is at the origin, and their average distance from the origin is \(\sqrt{3}\).
+\end{itemize}
+
+\paragraph{(2) Direct Linear Transformation (DLT)}
+The next step is to form a linear system of equations:
+\begin{itemize}
+    \item For each correspondence \( \mathbf{X}_i \leftrightarrow \mathbf{x}_i \), use the normalized coordinates \( \tilde{\mathbf{X}}_i \) and \( \tilde{\mathbf{x}}_i \) to generate two equations based on the projection model \( \tilde{\mathbf{x}}_i = \mathbf{P} \tilde{\mathbf{X}}_i \).
+    \item Stack all the equations into a \( 2n \times 12 \) matrix \( \mathbf{A} \), where \( n \) is the number of correspondences.
+    \item Write the entries of \( \mathbf{P} \) as a 12-dimensional vector \( \mathbf{p} \). The system \( \mathbf{A} \mathbf{p} = 0 \) is then solved subject to the constraint \( \| \mathbf{p} \| = 1 \).
+    \item The solution is obtained from the unit singular vector of \( \mathbf{A} \) corresponding to its smallest singular value.
+\end{itemize}
+
+\paragraph{(3) Denormalization}
+Finally, denormalize the estimated \( \mathbf{P} \) to obtain the camera matrix in the original coordinate system:
+$$
+\mathbf{P} = \mathbf{T}^{-1} \tilde{\mathbf{P}} \mathbf{U}.
+$$
+
+Here, \( \mathbf{T} \) and \( \mathbf{U} \) are the inverse similarity transformations used for normalization, and \( \tilde{\mathbf{P}} \) is the intermediate result obtained from the DLT step.
 
 \end{document}
