@@ -185,7 +185,7 @@ $$
 $$
 where $\mathbf{X}_{\text{w}}$ is a 3D point in homogeneous world coordinates, and $\mathbf{x}_{\text{image}}$ is its corresponding 2D point in homogeneous image coordinates.
 
-Now that we have a complete overview of what the camera matrix \( \mathbf{P} \) is composed of, we can compute an initial estimate for \( \mathbf{P} \) using the Gold Standard algorithm outlined in the textbook (Hartley and Zisserman 181).
+Now that we have a complete overview of what the camera matrix \( \mathbf{P} \) is composed of, we can compute an initial estimate for \( \mathbf{P} \) using the Gold Standard algorithm outlined in the textbook (Hartley and Zisserman 181). The remainder of this report will be dedicated to computing each of the following steps.
 
 \subsection{Steps of the Gold Standard Algorithm}
 
@@ -212,5 +212,76 @@ $$
 $$
 
 Here, \( \mathbf{T} \) and \( \mathbf{U} \) are the inverse similarity transformations used for normalization, and \( \tilde{\mathbf{P}} \) is the intermediate result obtained from the DLT step.
+
+\section{Normalization}
+
+Normalization is a crucial preprocessing step in the Gold Standard Algorithm, designed to improve numerical stability when estimating the camera matrix. By scaling and centering the points appropriately, we mitigate the effects of numerical inaccuracies in the subsequent computations.
+
+\textit{Data normalization is an essential step in the DLT algorithm and must not be considered optional} (ibid. 108).
+
+\subsection{Normalizing Image Points}
+Given a set of image points \( \mathbf{x}_i = \begin{pmatrix} u_i & v_i \end{pmatrix}^\top \) in homogeneous coordinates, the goal is to apply a similarity transformation \( \mathbf{T} \) such that:
+\begin{itemize}
+    \item The centroid of the points is shifted to the origin.
+    \item The average distance of the points from the origin is \(\sqrt{2}\).
+\end{itemize}
+
+To achieve this, the transformation matrix \( \mathbf{T} \) is defined as:
+$$
+\mathbf{T} = 
+\begin{pmatrix} 
+s & 0 & -s \bar{u} \\
+0 & s & -s \bar{v} \\
+0 & 0 & 1 
+\end{pmatrix},
+$$
+where:
+\begin{itemize}
+    \item \( \bar{u}, \bar{v} \) are the centroid coordinates of the points, computed as:
+    $$
+    \bar{u} = \frac{1}{n} \sum_{i=1}^n u_i, \quad \bar{v} = \frac{1}{n} \sum_{i=1}^n v_i.
+    $$
+    \item \( s \) is the scaling factor, defined to ensure the average distance from the origin is \(\sqrt{2}\):
+    $$
+    s = \frac{\sqrt{2}}{\displaystyle\frac{1}{n} \sum_{i=1}^n \sqrt{(u_i - \bar{u})^2 + (v_i - \bar{v})^2}}.
+    $$
+\end{itemize}
+
+\subsection{Normalizing 3D Space Points}
+Similarly, for a set of 3D space points \( \mathbf{X}_i = \begin{pmatrix} x_i & y_i & z_i \end{pmatrix}^\top \) in homogeneous coordinates, we apply a similarity transformation \( \mathbf{U} \) such that:
+\begin{itemize}
+    \item The centroid of the points is shifted to the origin.
+    \item The average distance of the points from the origin is \(\sqrt{3}\).
+\end{itemize}
+
+The transformation matrix \( \mathbf{U} \) is defined as:
+$$
+\mathbf{U} = 
+\begin{pmatrix} 
+s_x & 0 & 0 & -s_x \bar{x} \\
+0 & s_y & 0 & -s_y \bar{y} \\
+0 & 0 & s_z & -s_z \bar{z} \\
+0 & 0 & 0 & 1
+\end{pmatrix},
+$$
+where:
+\begin{itemize}
+    \item \( \bar{x}, \bar{y}, \bar{z} \) are the centroid coordinates of the 3D points, computed as:
+    $$
+    \bar{x} = \frac{1}{n} \sum_{i=1}^n x_i, \quad \bar{y} = \frac{1}{n} \sum_{i=1}^n y_i, \quad \bar{z} = \frac{1}{n} \sum_{i=1}^n z_i.
+    $$
+    \item \( s_x, s_y, s_z \) are the scaling factors for each axis, defined to ensure the average distance from the origin is \(\sqrt{3}\):
+    $$
+    s_x = s_y = s_z = \frac{\sqrt{3}}{\displaystyle\frac{1}{n} \sum_{i=1}^n \sqrt{(x_i - \bar{x})^2 + (y_i - \bar{y})^2 + (z_i - \bar{z})^2}}.
+    $$
+\end{itemize}
+
+After normalization, we have that:
+\begin{itemize}
+    \item the image points \( \mathbf{x}_i \) are transformed into normalized coordinates \( \tilde{\mathbf{x}}_i = \mathbf{T} \mathbf{x}_i \); and
+    \item the 3D space points \( \mathbf{X}_i \) are transformed into normalized coordinates \( \tilde{\mathbf{X}}_i = \mathbf{U} \mathbf{X}_i \).
+\end{itemize}
+The transformations \( \mathbf{T} \) and \( \mathbf{U} \) ensure that the numerical conditioning of the problem is improved, making the DLT step more stable and accurate.
+
 
 \end{document}
