@@ -93,6 +93,16 @@ function P = compute_camera_matrix(image_points, world_points)
     % Output:
     %   P: 3x4 camera matrix
 
+    n_image_points = size(image_points, 1);
+    n_world_points = size(world_points, 1);
+
+    if n_image_points ~= n_world_points
+        error("Mismatched number of image and world coordinates.");
+    end
+    if n_image_points < 6
+        error("At least six pairs of correspondence required.");
+    end
+
     % Step 1: Normalize points
     [image_points_normalized, U] = normalize_points_2d(image_points);
     [world_points_normalized, T] = normalize_points_3d(world_points);
@@ -105,7 +115,21 @@ function P = compute_camera_matrix(image_points, world_points)
 end
 
 % Demo
-image_points = [100, 200; 200, 200; 200, 300; 100, 300; 150, 250];
-world_points = [0, 0, 0; 1, 0, 0; 1, 1, 0; 0, 1, 0; 0.5, 0.5, 1];
+image_points = [
+    100, 200;
+    200, 200;
+    200, 300;
+    100, 300;
+    150, 250;
+    120, 280
+];
+world_points = [
+    0, 0, 0;
+    1, 0, 0;
+    1, 1, 0;
+    0, 1, 0;
+    0.5, 0.5, 1;
+    0.2, 0.8, 0.5
+];
 
 compute_camera_matrix(image_points, world_points)
