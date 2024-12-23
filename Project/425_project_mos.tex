@@ -13,6 +13,8 @@
 \usepackage{bm}
 \usepackage{esvect}
 
+\setcounter{MaxMatrixCols}{20} % fatass matrix
+
 % For the \set notation
 \usepackage{xparse} 
 \DeclarePairedDelimiterX{\set}[1]{\{}{\}}{\setargs{#1}}
@@ -282,6 +284,61 @@ After normalization, we have that:
     \item the 3D space points \( \mathbf{X}_i \) are transformed into normalized coordinates \( \tilde{\mathbf{X}}_i = \mathbf{U} \mathbf{X}_i \).
 \end{itemize}
 The transformations \( \mathbf{T} \) and \( \mathbf{U} \) ensure that the numerical conditioning of the problem is improved, making the DLT step more stable and accurate.
+
+\section{Performing the direct linear transformation (DLT)}
+
+\subsection{Setting up the linear system}
+
+Once the points have been normalized using the transformations \( \mathbf{T} \) and \( \mathbf{U} \), we estimate the camera matrix \( \mathbf{P} \) in the normalized coordinate system. 
+
+For each correspondence \( \tilde{\mathbf{x}}_i \leftrightarrow \tilde{\mathbf{X}}_i \), the relationship between the normalized 2D image point \( \tilde{\mathbf{x}}_i \) and the normalized 3D space point \( \tilde{\mathbf{X}}_i \) is given by:
+$$
+\tilde{\mathbf{x}}_i = \mathbf{P} \tilde{\mathbf{X}}_i,
+$$
+which we write in matrix form as
+$$
+\begin{pmatrix} 
+    \tilde{u}_i \\ \tilde{v}_i \\ 1
+\end{pmatrix} = 
+\begin{pmatrix} 
+p_{11} & p_{12} & p_{13} & p_{14} \\
+p_{21} & p_{22} & p_{23} & p_{24} \\
+p_{31} & p_{32} & p_{33} & p_{34} 
+\end{pmatrix}
+\begin{pmatrix} 
+\tilde{X}_i \\ \tilde{Y}_i \\ \tilde{Z}_i \\ 1
+\end{pmatrix}.
+$$
+
+For each corresponding point $\tilde{\mathbf{x}}_i$, we can expand the matrix to give us a pair of equations:
+\begin{align*}
+\tilde{u}_i &= \frac{\mathbf{p}_1^\top \tilde{\mathbf{X}}_i}{\mathbf{p}_3^\top \tilde{\mathbf{X}}_i}
+= \frac{p_{11} \tilde{X}_i + p_{12} \tilde{Y}_i + p_{13} \tilde{Z}_i + p_{14}}{p_{31} \tilde{X}_i + p_{32} \tilde{Y}_i + p_{33} \tilde{Z}_i + p_{34}},\quad\text{and}
+\\
+\quad \tilde{v}_i &= \frac{\mathbf{p}_2^\top \tilde{\mathbf{X}}_i}{\mathbf{p}_3^\top \tilde{\mathbf{X}}_i}
+= \frac{p_{21} \tilde{X}_i + p_{22} \tilde{Y}_i + p_{23} \tilde{Z}_i + p_{24}}{p_{31} \tilde{X}_i + p_{32} \tilde{Y}_i + p_{33} \tilde{Z}_i + p_{34}}.
+\end{align*}
+
+Now, we can rewrite the equations again in matrix form. For $n$ correspondences, we stack the equations into a $2n \times 12$ matrix $\mathbf{A}$, containing all the known elements. Then, writing our camera matrix $\mathbf{P}$ as a 12-dimensional vector $\mathbf{p}$, we have a homogeneous system $\mathbf{A}\mathbf{p}=\mathbf{0}$:
+
+$$
+\begin{pmatrix}
+\tilde{X}_1 & \tilde{Y}_1 & \tilde{Z}_1 & 1 & 0 & 0 & 0 & 0 & -\tilde{u}_1 \tilde{X}_1 & -\tilde{u}_1 \tilde{Y}_1 & -\tilde{u}_1 \tilde{Z}_1 & -\tilde{u}_1 \\
+0 & 0 & 0 & 0 & \tilde{X}_1 & \tilde{Y}_1 & \tilde{Z}_1 & 1 & -\tilde{v}_1 \tilde{X}_1 & -\tilde{v}_1 \tilde{Y}_1 & -\tilde{v}_1 \tilde{Z}_1 & -\tilde{v}_1 \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+\tilde{X}_i & \tilde{Y}_i & \tilde{Z}_i & 1 & 0 & 0 & 0 & 0 & -\tilde{u}_i \tilde{X}_i & -\tilde{u}_i \tilde{Y}_i & -\tilde{u}_i \tilde{Z}_i & -\tilde{u}_i \\
+0 & 0 & 0 & 0 & \tilde{X}_i & \tilde{Y}_i & \tilde{Z}_i & 1 & -\tilde{v}_i \tilde{X}_i & -\tilde{v}_i \tilde{Y}_i & -\tilde{v}_i \tilde{Z}_i & -\tilde{v}_i \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+\tilde{X}_n & \tilde{Y}_n & \tilde{Z}_n & 1 & 0 & 0 & 0 & 0 & -\tilde{u}_n \tilde{X}_n & -\tilde{u}_n \tilde{Y}_n & -\tilde{u}_n \tilde{Z}_n & -\tilde{u}_n \\
+0 & 0 & 0 & 0 & \tilde{X}_n & \tilde{Y}_n & \tilde{Z}_n & 1 & -\tilde{v}_n \tilde{X}_n & -\tilde{v}_n \tilde{Y}_n & -\tilde{v}_n \tilde{Z}_n & -\tilde{v}_n
+\end{pmatrix}
+\begin{pmatrix} 
+p_{11} \\ p_{12} \\ p_{13} \\ p_{14} \\
+p_{21} \\ p_{22} \\ p_{23} \\ p_{24} \\
+p_{31} \\ p_{32} \\ p_{33} \\ p_{34} 
+\end{pmatrix}
+= 0.
+$$
 
 
 \end{document}
