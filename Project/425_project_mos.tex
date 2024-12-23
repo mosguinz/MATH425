@@ -45,13 +45,9 @@
 
 In computer vision, the camera matrix is a $3 \times 4$ matrix that encapsulates the mapping performed by a pinhole camera, projecting 3D points in the real world onto 2D points in an image. This ``mini"-project focuses on understanding and implementing the simplest camera model, the basic pinhole camera.
 
-We will begin by describing the projection of points in 3D space onto a 2D plane using a series of matrices that we will define. The majority of this report is based on the explanations provided in \textit{Multiple View Geometry in Computer Vision} by Richard Hartley and Andrew Zisserman. Finally, we will discuss the implementation of a specific algorithm in MATLAB to compute the camera matrix.
+We will begin by describing the projection of points in 3D space onto a 2D plane using a series of matrices that we will define. The majority of this report is based on the explanations provided in \textit{Multiple View Geometry in Computer Vision} by Richard Hartley and Andrew Zisserman.
 
-\subsection{TODO: Notational note}
-
-To remain consistent with the textbook by Hartley and Zisserman, we will keep our notations largely similar. To emphasize a couple of matrices, I am going to 
-
-\section{The Pinhole Camera Model}
+\section{The pinhole camera model}
 
 The pinhole camera model is a simplified representation of how a camera projects three-dimensional (3D) points in space onto a two-dimensional (2D) image plane. Under this model, we aim to map a 3D point, denoted by 
 $\mathbf{X} = \begin{pmatrix} x & y & z \end{pmatrix}^\top$, 
@@ -83,7 +79,7 @@ $$
 
 This homogeneous representation serves as the foundation for deriving the complete camera matrix, which incorporates additional parameters to account for intrinsic and extrinsic camera properties.
 
-\subsection{Intrinsic Matrix}
+\subsection{Intrinsic matrix}
 
 In real-world cameras, the optical center does not necessarily coincide with the center of the image plane. Instead, the projection may be offset by a certain amount. This offset is characterized by the principal point, denoted by $p_x$ and $p_y$ for the horizontal and vertical displacements, respectively.
 
@@ -116,14 +112,14 @@ is known as the \textit{camera calibration matrix}, which encapsulates the \text
 The entire matrix is referred to as the \textit{intrinsic matrix}. Now, our 2D coordinate  $\mathbf{x}$ can be expressed as
 $$
 \mathbf{x} = \mathbf{K}\begin{bmatrix}
-    I & | & \vect{0}
+    I & | & \mathbf{0}
 \end{bmatrix}\mathbf{x}_\text{cam}
 $$
 where $\mathbf{x}_\text{cam}=\begin{pmatrix}
     x & y & z & 1
 \end{pmatrix}^\top$ is our camera at the origin of a Euclidean coordinate system.
 
-\subsection{Extrinsic Matrix}
+\subsection{Extrinsic matrix}
 
 In addition to the intrinsic properties of a camera, we must account for its position and orientation in the world. These are described by the \textit{extrinsic parameters}, which define the relationship between the \textit{camera coordinate frame} and the \textit{world coordinate frame}. 
 
@@ -159,7 +155,7 @@ Here, the $4\times 4$ matrix $
 $
 is known as the \textit{extrinsic matrix}, combining rotation and translation into a single transformation.
 
-\section{The Camera Matrix}
+\section{The camera matrix}
 
 The camera matrix combines the intrinsic and extrinsic transformations to map a 3D point in the world coordinate frame directly onto the 2D image plane.
 
@@ -189,7 +185,7 @@ where $\mathbf{X}_{\text{w}}$ is a 3D point in homogeneous world coordinates, an
 
 Now that we have a complete overview of what the camera matrix $ \mathbf{P} $ is composed of, we can compute an initial estimate for $ \mathbf{P} $ using the Gold Standard algorithm outlined in the textbook (Hartley and Zisserman 181). The remainder of this report will be dedicated to computing each of the following steps.
 
-\subsection{Steps of the Gold Standard Algorithm}
+\subsection{The Gold Standard algorithm to estimate the camera matrix}
 
 \paragraph{(1) Normalization}
 We first normalize both the image points and the 3D space points:
@@ -198,7 +194,7 @@ We first normalize both the image points and the 3D space points:
     \item Similarly, apply a similarity transformation $ \mathbf{U} $ to normalize the 3D space points so that their centroid is at the origin, and their average distance from the origin is $\sqrt{3}$.
 \end{itemize}
 
-\paragraph{(2) Direct Linear Transformation (DLT)}
+\paragraph{(2) Direct linear transformation (DLT)}
 The next step is to form a linear system of equations:
 \begin{itemize}
     \item For each correspondence $ \mathbf{X}_i \leftrightarrow \mathbf{x}_i $, use the normalized coordinates $ \tilde{\mathbf{X}}_i $ and $ \tilde{\mathbf{x}}_i $ to generate two equations based on the projection model $ \tilde{\mathbf{x}}_i = \mathbf{P} \tilde{\mathbf{X}}_i $.
@@ -217,11 +213,11 @@ Here, $ \mathbf{T} $ and $ \mathbf{U} $ are the inverse similarity transformatio
 
 \section{Normalization}
 
-Normalization is a crucial preprocessing step in the Gold Standard Algorithm, designed to improve numerical stability when estimating the camera matrix. By scaling and centering the points appropriately, we mitigate the effects of numerical inaccuracies in the subsequent computations.
+Normalization is a crucial preprocessing step in the Gold Standard algorithm, designed to improve numerical stability when estimating the camera matrix. By scaling and centering the points appropriately, we mitigate the effects of numerical inaccuracies in the subsequent computations.
 
 \textit{Data normalization is an essential step in the DLT algorithm and must not be considered optional} (ibid. 108).
 
-\subsection{Normalizing Image Points}
+\subsection{Normalizing image points}
 Given a set of image points $ \mathbf{x}_i = \begin{pmatrix} u_i & v_i \end{pmatrix}^\top $ in homogeneous coordinates, the goal is to apply a similarity transformation $ \mathbf{T} $ such that:
 \begin{itemize}
     \item The centroid of the points is shifted to the origin.
@@ -249,7 +245,7 @@ where:
     $$
 \end{itemize}
 
-\subsection{Normalizing 3D Space Points}
+\subsection{Normalizing 3D space points}
 Similarly, for a set of 3D space points $ \mathbf{X}_i = \begin{pmatrix} x_i & y_i & z_i \end{pmatrix}^\top $ in homogeneous coordinates, we apply a similarity transformation $ \mathbf{U} $ such that:
 \begin{itemize}
     \item The centroid of the points is shifted to the origin.
@@ -369,7 +365,7 @@ To maintain the scope of this project and keep it focused as a ``mini" project, 
 
 \paragraph{Error minimization} This project omits the error minimization step typically included in the Gold Standard algorithm. Minimizing geometric errors, such as reprojection error, requires iterative optimization techniques like Levenberg--Marquardt. While this step improves the accuracy of the camera matrix, it falls outside the scope of this simplified approach.
 
-\subsection{Closing Remark on the Use of the Camera Matrix}
+\subsection{Closing remark on the use of the camera matrix}
 
 Typically, when calculating the camera matrix \( \mathbf{P} \), the focus is not on \( \mathbf{P} \) itself but on the information it encapsulates: the intrinsic parameters, the extrinsic parameters (rotation matrix), and the position of the camera in the world.
 
