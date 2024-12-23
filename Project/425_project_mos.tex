@@ -125,22 +125,22 @@ where $\mathbf{x}_\text{cam}=\begin{pmatrix}
 
 \subsection{Extrinsic Matrix}
 
-In addition to the intrinsic properties of a camera, we must account for its position and orientation in the world. These are described by the \textit{extrinsic parameters}, which define the relationship between the \textit{camera coordinate frame} (CCF) and the \textit{world coordinate frame} (WCF). 
+In addition to the intrinsic properties of a camera, we must account for its position and orientation in the world. These are described by the \textit{extrinsic parameters}, which define the relationship between the \textit{camera coordinate frame} and the \textit{world coordinate frame}. 
 
-The transformation between the WCF and the CCF involves two components:
+The transformation between the world coordinate frame and the camera coordinate frame involves two components:
 \begin{itemize}
-    \item A $3 \times 3$ rotation matrix $\mathbf{R}$, which describes the orientation of the camera with respect to the WCF. Note that this matrix is orthogonal.
-    \item A $3 \times 1$ translation vector $\mathbf{t}$, which specifies the position of the camera's optical center in the WCF.
+    \item A $3 \times 3$ rotation matrix $\mathbf{R}$, which describes the orientation of the camera with respect to the world coordinate frame. Note that this matrix is orthogonal.
+    \item A $3 \times 1$ translation vector $\mathbf{t}$, which specifies the position of the camera's optical center in the world coordinate frame.
 \end{itemize}
 
 The matrix $\mathbf{R}$ has three rows, each representing a basis vector of the camera coordinate frame expressed in the world coordinate frame:
 \begin{itemize}
-    \item The first row of $\mathbf{R}$ represents the direction of the camera's $x$-axis in the WCF.
-    \item The second row of $\mathbf{R}$ represents the direction of the camera's $y$-axis in the WCF.
-    \item The third row of $\mathbf{R}$ represents the direction of the camera's optical axis (or $z$-axis) in the WCF.
+    \item The first row of $\mathbf{R}$ represents the direction of the camera's $x$-axis in the world coordinate frame.
+    \item The second row of $\mathbf{R}$ represents the direction of the camera's $y$-axis in the world coordinate frame.
+    \item The third row of $\mathbf{R}$ represents the direction of the camera's optical axis (or $z$-axis) in the world coordinate frame.
 \end{itemize}
 
-We again express the system in terms of a homogeneous coordinate to transform a point $\mathbf{X}_{\text{w}}$ in the WCF to the CCF, we apply the rotation and translation as follows:
+We again express the system in terms of a homogeneous coordinate to transform a point $\mathbf{X}_{\text{w}}$ in the world coordinate frame to the camera coordinate frame, we apply the rotation and translation as follows:
 $$
 \mathbf{x}_\text{cam} = 
 \mathbf{R} \mathbf{X}_{\text{w}} + \mathbf{t} =
@@ -354,5 +354,67 @@ Finally, we then denormalize the matrix $\tilde{\mathbf{P}}$ that we just comput
 $$
 \mathbf{P} = \mathbf{T}^{-1} \tilde{\mathbf{P}} \mathbf{U}.
 $$
+
+\section{Conclusion}
+
+The camera matrix serves as a fundamental tool in computer vision, enabling us to project 3D world points onto a 2D image plane. By combining the intrinsic parameters, which map camera coordinates to image coordinates, and the extrinsic parameters, which map world coordinates to camera coordinates, the camera matrix encapsulates the entire process of image formation in the pinhole camera model. This makes it invaluable for tasks such as 3D reconstruction, camera calibration, and image-based localization.
+
+\subsection{Limitations}
+
+To maintain the scope of this project and keep it focused as a ``mini" project, certain variables and complexities have been deliberately omitted from our model.
+
+\paragraph{Intrinsic parameters} When defining the intrinsic matrix, we assumed that the camera pixels are square. However, in many real-world applications, pixels may be rectangular. This would require differentiating between focal lengths in the \( x \)- and \( y \)-directions, introducing \( f_x \) and \( f_y \) into the model. Moreover, the pinhole camera model does not account for lens distortions, such as radial or tangential distortions, which can significantly impact the accuracy of the projection in practical scenarios.
+
+\paragraph{Number of correspondences} Estimating the camera matrix involves solving for 12 unknowns, which requires at least six point correspondences between 3D world points and their 2D image projections. Accurate estimation depends on these correspondences being precise and well-distributed across the scene. Insufficient points or poorly distributed correspondences can lead to inaccurate results. Additionally, if all points lie on a single plane, a degenerate configuration may arise, resulting in an ambiguous or unreliable camera matrix \( \mathbf{P} \).
+
+\paragraph{Error minimization} This project omits the error minimization step typically included in the Gold Standard algorithm. Minimizing geometric errors, such as reprojection error, requires iterative optimization techniques like Levenberg--Marquardt. While this step improves the accuracy of the camera matrix, it falls outside the scope of this simplified approach.
+
+\subsection{Closing Remark on the Use of the Camera Matrix}
+
+Typically, when calculating the camera matrix \( \mathbf{P} \), the focus is not on \( \mathbf{P} \) itself but on the information it encapsulates: the intrinsic parameters, the extrinsic parameters (rotation matrix), and the position of the camera in the world.
+
+The composition of the camera matrix that we detailed at the start can be exploited to reconstruct these matrices. Given that $\mathbf{K}$ is an upper-right triangular matrix and $\mathbf{R}$ is orthonormal, we can decouple $\mathbf{K}$ and $\mathbf{R}$ from the $3\times 3$ submatrix, using $QR$ factorization.
+$$
+\begin{pmatrix}
+    p_{11} & p_{12} & p_{13} \\
+    p_{21} & p_{22} & p_{23} \\
+    p_{31} & p_{32} & p_{33} \\
+\end{pmatrix} = 
+\begin{pmatrix}
+    f & 0 & 0 & 0 \\
+    0 & f & 0 & 0 \\
+    0 & 0 & 1 & 0
+\end{pmatrix}
+\begin{pmatrix}
+    r_{11} & r_{12} & r_{13} \\
+    r_{21} & r_{22} & r_{23} \\
+    r_{31} & r_{32} & r_{33} \\
+\end{pmatrix}
+= \mathbf{KR}
+$$
+
+Having found $\mathbf{K}$, we can then recover the translation vector $\mathbf{t}$ using the last column of $\mathbf{P}$.
+
+$$
+\begin{pmatrix}
+    p_{14} \\ p_{24} \\ p_{34} \\
+\end{pmatrix} = 
+\begin{pmatrix}
+    f & 0 & 0 & 0 \\
+    0 & f & 0 & 0 \\
+    0 & 0 & 1 & 0
+\end{pmatrix}
+\begin{pmatrix}
+    t_x \\ t_y \\ t_z
+\end{pmatrix}
+= \mathbf{Kt}
+\quad\implies\quad
+\mathbf{t} = \mathbf{K}^{-1}
+\begin{pmatrix}
+    p_{14} \\ p_{24} \\ p_{34} \\
+\end{pmatrix}
+$$
+
+By decomposing \( \mathbf{P} \), we can extract the calibration matrix \( \mathbf{K} \), which contains intrinsic parameters such as the focal length and principal point offset, as well as the rotation matrix \( \mathbf{R} \) and the translation vector \( \mathbf{t} \), which describe the camera’s orientation and position in the world coordinate frame.
 
 \end{document}
