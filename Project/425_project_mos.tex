@@ -169,8 +169,8 @@ Together, the intrinsic and extrinsic matrices form our $3\times 4$ camera matri
 \begin{align*}
     \mathbf{P} &= \mathbf{K} \begin{bmatrix} \mathbf{R} & | & \mathbf{t} \end{bmatrix} \\
     &= \begin{pmatrix}
-        f & 0 & 0 & 0 \\
-        0 & f & 0 & 0 \\
+        f & 0 & p_x & 0 \\
+        0 & f & p_y & 0 \\
         0 & 0 & 1 & 0
     \end{pmatrix}
     \begin{pmatrix}
@@ -381,8 +381,8 @@ $$
     p_{31} & p_{32} & p_{33} \\
 \end{pmatrix} = 
 \begin{pmatrix}
-    f & 0 & 0 & 0 \\
-    0 & f & 0 & 0 \\
+    f & 0 & p_x & 0 \\
+    0 & f & p_y & 0 \\
     0 & 0 & 1 & 0
 \end{pmatrix}
 \begin{pmatrix}
@@ -400,8 +400,8 @@ $$
     p_{14} \\ p_{24} \\ p_{34} \\
 \end{pmatrix} = 
 \begin{pmatrix}
-    f & 0 & 0 & 0 \\
-    0 & f & 0 & 0 \\
+    f & 0 & p_x & 0 \\
+    0 & f & p_y & 0 \\
     0 & 0 & 1 & 0
 \end{pmatrix}
 \begin{pmatrix}
