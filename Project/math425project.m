@@ -60,11 +60,11 @@ function [normalized_points, T] = normalize_points_3d(points)
     normalized_points = (T * points_h')';
 end
 
-function P_tilde = dlt(world_points, image_points)
+function P_tilde = dlt(image_points, world_points)
     % Compute the direct linear transformation.
     % Inputs:
-    %   world_points: Nx4 matrix of (normalized) HOMOGENOUS 3D world points
     %   image_points: Nx3 matrix of (normalized) HOMOGENOUS 2D image points
+    %   world_points: Nx4 matrix of (normalized) HOMOGENOUS 3D world points
     % Output:
     %   P: 3x4 camera matrix
 
@@ -98,7 +98,7 @@ function P = compute_camera_matrix(image_points, world_points)
     [world_points_normalized, T] = normalize_points_3d(world_points);
 
     % Step 2: Apply DLT with normalized coordinates
-    P_tilde = dlt(world_points_normalized, image_points_normalized);
+    P_tilde = dlt(image_points_normalized, world_points_normalized);
 
     % Step 3: Denormalize the camera matrix
     P = U \ P_tilde * T;
