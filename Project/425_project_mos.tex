@@ -12,6 +12,8 @@
 \usepackage{xfrac}
 \usepackage{bm}
 \usepackage{esvect}
+\usepackage{svg}
+
 
 \setcounter{MaxMatrixCols}{20} % fatass matrix
 
@@ -36,10 +38,12 @@
 \rhead{Sitthisarnwattanachai}
 
 \title{Computation of the Camera Matrix}
-\author{mosguinz}
-\date{December 2024}
+\author{Kullathon ``Mos" Sitthisarnwattanachai}
+\date{December 22, 2024}
 
 \begin{document}
+
+\maketitle
 
 \section{Introduction}
 
@@ -49,13 +53,19 @@ We will begin by describing the projection of points in 3D space onto a 2D plane
 
 \section{The pinhole camera model}
 
+\begin{figure}
+    \centering 
+    \includesvg[height = 250pt]{fig1.svg}
+    \caption{Pinhole camera geometry. $\mathbf{C}$ is the camera centre and $\mathbf{p}$ the principal point. The camera center is here placed at the coordinate origin.}
+    \label{fig:enter-label}
+\end{figure}
+
 The pinhole camera model is a simplified representation of how a camera projects three-dimensional (3D) points in space onto a two-dimensional (2D) image plane. Under this model, we aim to map a 3D point, denoted by 
 $\mathbf{X} = \begin{pmatrix} x & y & z \end{pmatrix}^\top$, 
 to its corresponding point on the image plane. This point is the intersection of the line passing through $\mathbf{X}$ and the center of projection (the camera's optical center) with the image plane.
 
 The geometry of the setup defines the center of projection at the origin of the camera coordinate system, with the image plane located at a fixed distance $f$ (the focal length) from the origin. The projection follows the principle of similar triangles.
 
-[[TODO: INSERT DIAGRAM HERE]]
 
 The equations governing this projection are given by:
 $$
@@ -64,7 +74,7 @@ $$
 
 Now, note that these perspective projections are nonlinear due to the division by $z$. To simplify our operations, we want to transform our system using a linear model. In our case, we can accomplish this by using homogeneous coordinates.
 
-\subsection{Linearizing and using homogenous coordinates}
+\subsection{Linearizing and using homogeneous coordinates}
 
 In the homogeneous form, the coordinates of our point $\mathbf{X}$ are expressed as $\begin{pmatrix} x & y & z & 1 \end{pmatrix}^\top$, and the corresponding point on the image plane becomes $\begin{pmatrix} u & v & z \end{pmatrix}^\top$. Then, we can write our projection in matrix form as:
 $$
@@ -186,6 +196,7 @@ where $\mathbf{X}_{\text{w}}$ is a 3D point in homogeneous world coordinates, an
 Now that we have a complete overview of what the camera matrix $ \mathbf{P} $ is composed of, we can compute an initial estimate for $ \mathbf{P} $ using the Gold Standard algorithm outlined in the textbook (Hartley and Zisserman 181). The remainder of this report will be dedicated to computing each of the following steps.
 
 \subsection{The Gold Standard algorithm to estimate the camera matrix}
+\label{sec:GoldStandard}
 
 \paragraph{(1) Normalization}
 We first normalize both the image points and the 3D space points:
@@ -412,5 +423,28 @@ $$
 $$
 
 By decomposing \( \mathbf{P} \), we can extract the calibration matrix \( \mathbf{K} \), which contains intrinsic parameters such as the focal length and principal point offset, as well as the rotation matrix \( \mathbf{R} \) and the translation vector \( \mathbf{t} \), which describe the camera’s orientation and position in the world coordinate frame.
+
+\subsection{MATLAB implementation}
+
+The MATLAB implementation of the Gold Standard algorithm is fairly straightforward --- and much less complex than the derivation above. The  \code{math425project.m} file contains the functions that perform the above algorithm:
+
+\begin{itemize}
+    \item \verb|normalize_points_2d(points)| and \verb|normalize_points_3d(points)| to normalize the 2D image points and 3D space points, respectively. It returns the normalized, homogeneous coordinates and the respective transformation matrices.
+    \item \verb|dlt(image_points, world_points)| to apply the direct linear transformation. It expects the arguments \verb|world_points| and \verb|image_points| to be the \textit{normalized, homogeneous} 2D image and space points and returns the normalized estimate of the camera matrix, denoted $\tilde{\mathbf{P}}$ above.
+    Note that the function does not actually enforce that the inputs be normalized. One could apply DLT without normalization. However, as the book mention, doing so is highly discouraged.
+    \item \verb|compute_camera_matrix(image_points, world_points)| to execute the entire Gold Standard algorithm, as outlined in \autoref{sec:GoldStandard}. Here, it expects the arguments to be the inhomogeneous sets of 2D image and space points. At the very minimum, it checks that the provided arguments contains at least six pairs of coordinates.
+\end{itemize}
+
+It is implemented in such a way that the end-user can simply call \verb|compute_camera_matrix| with their known world-to-image point correspondences. The end of the contains an example on how one could utilize it.
+
+\section{References}
+
+\begin{enumerate}
+    \item R. Hartley, A. Zisserman (2004) \textit{Multiple View Geometry in Computer Vision}, 2nd edition. ISBN 978-0521540513.
+    \item S. Nayar (2021) ``Linear Camera Model," \textit{First Principles of Computer Vision}. \url{https://fpcv.cs.columbia.edu/}.
+    \item S. Nayar (2021) ``Camera Calibration," \textit{First Principles of Computer Vision}. \url{https://fpcv.cs.columbia.edu/}.
+    \item S. Nayar (2021) ``Intrinsic and Extinsic Matrices," \textit{First Principles of Computer Vision}. \url{https://fpcv.cs.columbia.edu/}.
+    \item C. Stachniss (2021) ``Camera Calibration: Direct Linear Transform," \textit{5 Minutes with Cyrill}. \url{https://www.youtube.com/watch?v=Fdwa0UEJ_F8}.
+\end{enumerate}
 
 \end{document}
